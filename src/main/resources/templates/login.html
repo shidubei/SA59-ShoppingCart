@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Create New Account</title>
+</head>
+<body>
+	<h2 style="text-align: center"> Sign Up </h2>
+	<form action="#" th:action="@{/login/success}" method="post">
+	<table style="width:50%; margin-left: auto; margin-right: auto;">
+
+		<tr>
+		<th>Username:</th>
+		<td><input type="text" name="username" required="required"></td>
+		</tr>
+
+		<tr>
+		<th>Password:</th>
+		<td><input type="password" name="password" required="required"></td>
+		</tr>		
+		
+		</tr>
+		<td>
+		<input type="submit" value="Save" /> &nbsp; &nbsp; <input
+		type="reset" value="Reset" />
+		</td>
+		</tr>
+		
+	</table>
+	</form>
+</body>
+</html>
