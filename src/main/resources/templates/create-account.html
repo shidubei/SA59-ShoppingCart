@@ -5,32 +5,37 @@
 </head>
 <body>
 	<h2 style="text-align: center"> Sign Up </h2>
-	<form action="#" th:object="${product}" th:action="@{/sign_up/success}" method="post">
+	<form th:action="@{/signup}" method="post" th:object="${signup}">
 	<table style="width:50%; margin-left: auto; margin-right: auto;">
 		
 		<tr>
 		<th>Email:</th>
-		<td><input type="text" name="email" required="required"></td>
+		<td><input type="text" th:field="*{email}" /></td>
+		<td  th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></td>
 		</tr>
 		
 		<tr>
 		<th>Username:</th>
-		<td><input type="text" name="username" required="required"></td>
+		<td><input type="text" th:field="*{username}" /></td>
+		<td th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red"></td>
 		</tr>
 
 		<tr>
 		<th>Contact Number:</th>
-		<td><input type="text" name="contactno" required="required"></td>
+		<td><input type="text" th:field="*{contactNumber}" /></td>
+		<td th:if="${#fields.hasErrors('contactNumber')}" th:errors="*{contactNumber}" style="color:red"></td>
 		</tr>
 
 		<tr>
 		<th>Password:</th>
-		<td><input type="password" name="password1" required="required" minlength="8"></td>
+		<td><input type="password" th:field="*{password1}" /></td>
+		<td th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" style="color:red"></td>
 		</tr>		
 
 		<tr>
 		<th>Confirm Password:</th>
-		<td><input type="password" name="password2" required="required" minlength="8"></td>
+		<td><input type="password" th:field="*{password2}" /></td>
+		<td th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" style="color:red"></td>
 		</tr>
 		
 		</tr>
