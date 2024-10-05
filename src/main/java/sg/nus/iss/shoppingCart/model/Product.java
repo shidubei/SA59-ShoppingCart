@@ -1,47 +1,43 @@
 package sg.nus.iss.shoppingCart.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
-@Table(name="product")
 public class Product {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Column(name="product_name")
 	private String name;
 	
 	private String category;
 	
 	private double price;
 	
-	@ManyToMany(mappedBy="products")
-	private List<Order> orders;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
+	private List<ShoppingCartItem> shoppingCartItems;
 	
-	@ManyToMany(mappedBy="products")
-	private List<ShoppingCart> shoppingCarts;
+//	@OneToMany(fetch = FetchType.EAGER, mappedBy="orderProduct")
+//	private List<OrderDetails> productInOrder;
 	
 	public Product() {}
-
-
-	public Product(int id, String name, String category, double price) {
-		this.id = id;
-		this.name = name;
-		this.category = category;
-		this.price = price;
-	}
-
+	
+//	public Product() {
+//		this.shoppingCartItems = new ArrayList<>();
+//		this.productInOrder = new ArrayList<>();
+//	}
+	
 
 	public int getId() {
 		return id;
@@ -63,6 +59,7 @@ public class Product {
 	}
 
 
+
 	public String getCategory() {
 		return category;
 	}
@@ -71,6 +68,7 @@ public class Product {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
 
 
 	public double getPrice() {
@@ -83,23 +81,13 @@ public class Product {
 	}
 
 
-	public List<Order> getOrders() {
-		return orders;
+	public List<ShoppingCartItem> getShoppingCartItems() {
+		return shoppingCartItems;
 	}
 
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public void setShoppingCartItems(List<ShoppingCartItem> shoppingCartItems) {
+		this.shoppingCartItems = shoppingCartItems;
 	}
-
-
-	public List<ShoppingCart> getShoppingCarts() {
-		return shoppingCarts;
-	}
-
-
-	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
-		this.shoppingCarts = shoppingCarts;
-	}	
+	
 	
 }
