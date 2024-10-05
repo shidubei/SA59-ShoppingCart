@@ -5,11 +5,11 @@
 	</head>
 <body>
 	<table style="width:50%; margin-left: auto; margin-right: auto; border: black;">
-		<tr th:if="${isLoggedIn}">
+		<tr th:if="${session.isLoggedIn}">
 			<td style="text-align: right; font-weight: bold;"><a th:href="@{/cart}">View Cart</a></td>
 			<td style="text-align: right; font-weight: bold;"><a th:href="@{/logout}">Logout</a></td>
 		</tr>
-		<tr th:unless="${isLoggedIn}">
+		<tr th:unless="${session.isLoggedIn}">
 			<td style="text-align: right; font-weight: bold;"><a th:href="@{/login}">Login</a></td>
 			<td style="text-align: right; font-weight: bold;"><a th:href="@{/signup}">Sign Up</a></td>
 		</tr>

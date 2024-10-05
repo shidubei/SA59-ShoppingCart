@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 //import org.springframework.web.bind.annotation.RequestParam;
@@ -38,8 +40,55 @@ public class TestMarkController {
 		binder.addValidators(signUpValidator);
 	}
 	
+	@GetMapping("/login")
+	public String loginPage(Model model,HttpSession sessionObj) {
+		// if you are already logged in redirect to the front
+		if (sessionObj.getAttribute("isLoggedIn")==null) {
+			sessionObj.setAttribute("isLoggedIn",false);
+		}
+		if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
+			return "redirect:/logstat";
+		}
+		// add model attributes
+		model.addAttribute("username","");
+		model.addAttribute("password","");
+		model.addAttribute("showWrongPasswordError",false);
+		return "login";
+	}
+	
+	@PostMapping("/login")
+	//@RequestMapping("/login")
+	public String loginToAccount(Model model,
+									HttpSession sessionObj,
+									@RequestParam("username") String loginUsername,
+									@RequestParam("password") String loginPassword) {
+		System.out.println("Username: "+loginUsername);
+		System.out.println("Password: "+loginPassword);
+		// validate that username and password is correct
+		if (loginUsername.length() >= 1 & loginPassword.length() >= 8) {
+			model.addAttribute("showWrongPasswordError",false);
+			sessionObj.setAttribute("isLoggedIn",true);
+			System.out.println("Current isLoggedIn status: "+model.getAttribute("isLoggedIn"));
+			//return "forward:/logstat";
+			return "redirect:/logstat";
+		} else {
+			model.addAttribute("username",loginUsername);
+			model.addAttribute("password","");
+			model.addAttribute("showWrongPasswordError",true);
+			return "login";
+		}
+		//return "login";
+	}
+	
 	@GetMapping("/signup")
-	public String signUpPage(Model model) {
+	public String signUpPage(Model model, HttpSession sessionObj) {
+		// if you are already logged in redirect to the front
+		if (sessionObj.getAttribute("isLoggedIn")==null) {
+			sessionObj.setAttribute("isLoggedIn",false);
+		}
+		if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
+			return "redirect:/logstat";
+		}
 		model.addAttribute("signup",new SignUp());
 		return "create-account";
 	}
@@ -64,21 +113,39 @@ public class TestMarkController {
 			return "create-account";
 		}
 		//model.addAttribute("signup",signUp); // keep the form data
-		return "general-success";
+		return "redirect:/logstat";
 	}
 	
-	@GetMapping("/mark_login")
-	public String whenLogin(Model model) {
-		model.addAttribute("isLoggedIn",true);
-		System.out.println("isLoggedIn true");
+	@RequestMapping("/logstat")
+	public String markHome(HttpSession sessionObj) {
+		System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("isLoggedIn"));
+		if (sessionObj.getAttribute("isLoggedIn")==null) {
+			System.out.println("Create New");
+			sessionObj.setAttribute("isLoggedIn",false);
+		}
+		System.out.println("Current isLoggedIn status: "+(boolean) sessionObj.getAttribute("isLoggedIn"));
 		return "logstat";
 	}
 	
-	@RequestMapping(value="/mark_logout")
-	public String whenLogout(Model model) {
-		model.addAttribute("isLoggedIn",false);
-		System.out.println("isLoggedIn false");
-		return "logstat";
+	
+	@RequestMapping("/logout")
+	public String logoutOfAccount(HttpSession sessionObj) {
+		sessionObj.setAttribute("isLoggedIn",false);
+		return "redirect:/logstat";
 	}
+	
+	//@RequestMapping("/mark_login")
+	//public String whenLogin(Model model) {
+	//	model.addAttribute("isLoggedIn",true);
+	//	System.out.println("isLoggedIn true");
+	//	return "logstat";
+	//}
+	
+	//@RequestMapping(value="/mark_logout")
+	//public String whenLogout(Model model) {
+	//	model.addAttribute("isLoggedIn",false);
+	//	System.out.println("isLoggedIn false");
+	//	return "logstat";
+	//}
 	
 }

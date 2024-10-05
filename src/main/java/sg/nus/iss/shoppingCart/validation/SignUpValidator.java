@@ -29,14 +29,23 @@ public class SignUpValidator implements Validator {
 		// check if password is correct;
 		String password1 = signUp.getPassword1();
 		if (this.isValidPassword(password1) == false) {
-			errors.rejectValue("password1","error.password1",
+			errors.rejectValue("password1","error.passwordisgoodpassword",
 					"Password must have at least 8 characters and contain an uppercase letter, lowercase letter and digit");
 		}
+		// check if the confirm password is correct
 		String password2 = signUp.getPassword2();
 		if (password2.equals(password1)==false) {
-			errors.rejectValue("password2","error.password2",
+			errors.rejectValue("password2","error.password2match",
 					"The two passwords must match");
 		}
+		
+		// check that the username is unique (must implement later)
+		String username = signUp.getUsername();
+		if (false) {
+			errors.rejectValue("username","error.usedusername",
+					"Your username must be unique");
+		}
+		
 	}
 	
 	public boolean isValidPassword(String username) {
