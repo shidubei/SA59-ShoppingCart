@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Shopping Cart</title>
+	</head>
+	<body>
+		<table>
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<tbody th:each="item : ${items}">
+				<tr>
+					<td th:text="${item.product.name}"></td>
+					<td th:text="${item.quantity}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<form th:action="@{/checkout}" method="post">
+		            <input type="hidden" name="items" th:value="${items}" />
+		            <button type="submit" class="checkout-button">Checkout</button>
+		</form>
+	</body>
+</html>
