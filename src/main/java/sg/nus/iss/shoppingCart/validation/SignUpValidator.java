@@ -3,8 +3,13 @@ package sg.nus.iss.shoppingCart.validation;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.SignUp;
+import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -16,7 +21,10 @@ public class SignUpValidator implements Validator {
 	public boolean need_lower = true;
 	public boolean need_digit = true;
 	public boolean need_special = false;
+
 	
+	@Autowired
+	private CustomerRepository customerRepo;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -41,16 +49,17 @@ public class SignUpValidator implements Validator {
 		
 		// check that the username is unique (must implement later)
 		String username = signUp.getUsername();
-		if (false) {
+		List<Customer> sameUserName = customerRepo.findByName(username);
+		if (sameUserName.size() > 0) {
 			errors.rejectValue("username","error.usedusername",
-					"Your username must be unique");
+					"This username is already in use. Please use a different username.");
 		}
 		
 	}
 	
-	public boolean isValidPassword(String username) {
+	public boolean isValidPassword(String password) {
 		
-		if (username.length() < min_length) {
+		if (password.length() < min_length) {
 			return false;
 		}
 		
@@ -62,8 +71,8 @@ public class SignUpValidator implements Validator {
 		int i = 0;
 		char char_i;
 		
-		for (i=0;i<username.length();i++) {
-			char_i = username.charAt(i);
+		for (i=0;i<password.length();i++) {
+			char_i = password.charAt(i);
 				
 			if (Character.isLetter(char_i) & Character.isUpperCase(char_i)) {
 				// is upper case

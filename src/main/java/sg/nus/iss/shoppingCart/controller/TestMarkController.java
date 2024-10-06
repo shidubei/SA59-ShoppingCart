@@ -27,12 +27,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import sg.nus.iss.shoppingCart.validation.SignUpValidator;
 import sg.nus.iss.shoppingCart.model.SignUp;
+import sg.nus.iss.shoppingCart.model.Customer;
+import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 
 @Controller
 public class TestMarkController {
 
 	@Autowired
 	private SignUpValidator signUpValidator;
+	
+	@Autowired
+	private CustomerRepository customerRepo;
 	
 	@InitBinder
 	private void initSignUpBinder(WebDataBinder binder) {
@@ -64,14 +69,20 @@ public class TestMarkController {
 									@RequestParam("password") String loginPassword) {
 		System.out.println("Username: "+loginUsername);
 		System.out.println("Password: "+loginPassword);
-		// validate that username and password is correct
-		if (loginUsername.length() >= 1 & loginPassword.length() >= 8) {
+		
+		// validate that username and password is correct (there exists a user with the same name and password combo
+		Customer foundCustomer = customerRepo.findByNameAndPassword(loginUsername, loginPassword);
+		if (foundCustomer != null) {
+			model.addAttribute("username","");
+			model.addAttribute("password","");
 			model.addAttribute("showWrongPasswordError",false);
 			sessionObj.setAttribute("isLoggedIn",true);
+			sessionObj.setAttribute("customerId", foundCustomer.getId());
+			sessionObj.setAttribute("customerName", foundCustomer.getName());
 			System.out.println("Current isLoggedIn status: "+model.getAttribute("isLoggedIn"));
-			//return "forward:/logstat";
 			return "redirect:/logstat";
 		} else {
+			// login invalid; return the user to the login page and ask them to re-type
 			model.addAttribute("username",loginUsername);
 			model.addAttribute("password","");
 			model.addAttribute("showWrongPasswordError",true);
@@ -113,6 +124,12 @@ public class TestMarkController {
 			return "create-account";
 		}
 		//model.addAttribute("signup",signUp); // keep the form data
+		// if successful, create a new customer account
+		Customer newCustomer = new Customer();
+		newCustomer.setName(signUp.getUsername());
+		newCustomer.setEmail(signUp.getEmail());
+		newCustomer.setContactNumber(signUp.getContactNumber());
+		newCustomer.setPassword(signUp.getPassword1());
 		return "redirect:/logstat";
 	}
 	
@@ -131,6 +148,7 @@ public class TestMarkController {
 	@RequestMapping("/logout")
 	public String logoutOfAccount(HttpSession sessionObj) {
 		sessionObj.setAttribute("isLoggedIn",false);
+		sessionObj.setAttribute("customerId", null);
 		return "redirect:/logstat";
 	}
 	
