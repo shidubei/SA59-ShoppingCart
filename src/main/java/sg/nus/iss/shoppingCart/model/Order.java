@@ -57,6 +57,4 @@ public class Order {
 	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
 		this.shoppingCarts = shoppingCarts;
 	}
-	
-
 }
