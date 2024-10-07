@@ -1,5 +1,7 @@
 package sg.nus.iss.shoppingCart.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 // This is for testing the interface change between login and logout
@@ -14,13 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.WebDataBinder;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -71,14 +69,15 @@ public class TestMarkController {
 		System.out.println("Password: "+loginPassword);
 		
 		// validate that username and password is correct (there exists a user with the same name and password combo
-		Customer foundCustomer = customerRepo.findByNameAndPassword(loginUsername, loginPassword);
-		if (foundCustomer != null) {
+		Optional<Customer> foundCustomer = customerRepo.findByNameAndPassword(loginUsername, loginPassword);
+		if (foundCustomer.isPresent()) {
+			Customer gotCustomer = foundCustomer.get();
 			model.addAttribute("username","");
 			model.addAttribute("password","");
 			model.addAttribute("showWrongPasswordError",false);
 			sessionObj.setAttribute("isLoggedIn",true);
-			sessionObj.setAttribute("customerId", foundCustomer.getId());
-			sessionObj.setAttribute("customerName", foundCustomer.getName());
+			sessionObj.setAttribute("customerId", gotCustomer.getId());
+			sessionObj.setAttribute("customerName", gotCustomer.getName());
 			System.out.println("Current isLoggedIn status: "+model.getAttribute("isLoggedIn"));
 			return "redirect:/logstat";
 		} else {
@@ -130,6 +129,7 @@ public class TestMarkController {
 		newCustomer.setEmail(signUp.getEmail());
 		newCustomer.setContactNumber(signUp.getContactNumber());
 		newCustomer.setPassword(signUp.getPassword1());
+		customerRepo.save(newCustomer);
 		return "redirect:/logstat";
 	}
 	
@@ -147,8 +147,9 @@ public class TestMarkController {
 	
 	@RequestMapping("/logout")
 	public String logoutOfAccount(HttpSession sessionObj) {
-		sessionObj.setAttribute("isLoggedIn",false);
-		sessionObj.setAttribute("customerId", null);
+		sessionObj.invalidate();
+		//sessionObj.setAttribute("isLoggedIn",false);
+		//sessionObj.setAttribute("customerId", null);
 		return "redirect:/logstat";
 	}
 	
