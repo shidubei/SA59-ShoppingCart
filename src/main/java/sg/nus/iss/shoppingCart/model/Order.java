@@ -2,8 +2,10 @@ package sg.nus.iss.shoppingCart.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,14 +30,17 @@ public class Order {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	@ManyToMany
-	@JoinTable(
-		name="orderdetails",
-		joinColumns=@JoinColumn(name="order_id"),
-		inverseJoinColumns=@JoinColumn(name="product_id")
-	)
-	private List<Product> products;
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="orders_id", cascade=CascadeType.ALL, orphanRemoval = true)
+	private List<OrderDetails> orderdetails;
 	
+	public List<OrderDetails> getOrderdetails() {
+		return orderdetails;
+	}
+
+	public void setOrderdetails(List<OrderDetails> orderdetails) {
+		this.orderdetails = orderdetails;
+	}
+
 	public Order() {}
 	
 	public Order(int id, String orderDate, Customer customer) {
@@ -67,13 +73,4 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-	
-	
 }

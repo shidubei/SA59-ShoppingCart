@@ -2,6 +2,7 @@ package sg.nus.iss.shoppingCart.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,13 +18,20 @@ public class Customer {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	private String name;
+	@Column(name="username")
+	private String username;
 	
+	@Column(name="password")
 	private String password;
 	
+	@Column(name="email")
 	private String email;
 	
+	@Column(name="contact_number")
 	private String contactNumber;
+	
+	@OneToMany(mappedBy="customer")
+	private List<Address> addresses;
 	
 	@OneToMany(mappedBy="customer")
 	private List<Order> orders;
@@ -32,12 +40,13 @@ public class Customer {
 	private ShoppingCart shoppingCart;
 
 	public Customer() {}
-	public Customer(int id, String name, String password, String email, String contactNumber) {
-		this.id = id;
-		this.name = name;
+	
+	public Customer(String username, String password, String email, String contactNumber,List<Address> addresses) {
+		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.contactNumber = contactNumber;
+		this.addresses=addresses;
 	}
 
 
@@ -51,13 +60,13 @@ public class Customer {
 	}
 
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 
@@ -100,10 +109,19 @@ public class Customer {
 		this.orders = orders;
 	}
 
-
 	public ShoppingCart getShoppingCart() {
 		return shoppingCart;
 	}
+	
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+
+
 
 
 	public void setShoppingCart(ShoppingCart shoppingCart) {
