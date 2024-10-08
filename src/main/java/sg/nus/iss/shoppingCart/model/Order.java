@@ -39,12 +39,27 @@ public class Order {
 	@OneToMany(fetch=FetchType.EAGER,mappedBy="order",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<OrderDetails> orderDetails;
 	
+	//Added TEMPORARY 
+	/*NEED TO REMOVE GETTER SETTER AND CONSTRUCTOR*/
+	private String status;
+	private String products;
+	
 	public Order() {}
 	
 	public Order(int id, LocalDate orderDate, Customer customer) {
 		this.id = id;
 		this.orderDate = orderDate;
 		this.customer = customer;
+	}
+
+	public Order(int id, LocalDate orderDate, Customer customer, List<OrderDetails> orderDetails, String status,
+			String products) {
+		this.id = id;
+		this.orderDate = orderDate;
+		this.customer = customer;
+		this.orderDetails = orderDetails;
+		this.status = status;
+		this.products = products;
 	}
 
 	public int getId() {
@@ -69,6 +84,30 @@ public class Order {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getProducts() {
+		return products;
+	}
+
+	public void setProducts(String products) {
+		this.products = products;
+	}
+
+	public List<OrderDetails> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetails> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 
 }
