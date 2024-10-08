@@ -57,9 +57,9 @@ public class AccountLoginController {
 			sessionObj.setAttribute("isLoggedIn",false);
 		}
 		// if you are already logged in redirect to the main page
-		if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
-			return "redirect:/logstat";
-		}
+		//if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
+		//	return "redirect:/logstat";
+		//}
 		// These model attributes are to save what is typed on the login screen
 		model.addAttribute("username","");
 		model.addAttribute("password","");
@@ -119,9 +119,9 @@ public class AccountLoginController {
 			sessionObj.setAttribute("isLoggedIn",false);
 		}
 		// if you are already logged in redirect to the front
-		if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
-			return "redirect:/logstat";
-		}
+		//if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
+		//	return "redirect:/logstat";
+		//}
 		// create a new model for SignUp data
 		model.addAttribute("signup",new SignUp());
 		// uses 'create-account.html'
