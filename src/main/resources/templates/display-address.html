@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<title>Address Page</title>
+</head>
+<body>
+	<ul>
+		<li th:each="address:${addresses}">
+			<span th:text="${address.pre_address}"></span>
+			<a th:href="@{address/update(id=${address.id})}">Update</a>
+			<a th:href="@{address/delete(id=${address.id})}">Delete</a>
+		</li>
+	</ul>
+</body>
+</html>

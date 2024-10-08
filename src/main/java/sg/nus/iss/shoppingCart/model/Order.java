@@ -1,5 +1,6 @@
 package sg.nus.iss.shoppingCart.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -24,13 +25,13 @@ public class Order {
 	private int id;
 	
 	@Column(name="order_date")
-	private String orderDate;
+	private LocalDate orderDate;
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="orders_id", cascade=CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="order", cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<OrderDetails> orderdetails;
 	
 	public List<OrderDetails> getOrderdetails() {
@@ -43,7 +44,7 @@ public class Order {
 
 	public Order() {}
 	
-	public Order(int id, String orderDate, Customer customer) {
+	public Order(int id, LocalDate orderDate, Customer customer) {
 		this.id = id;
 		this.orderDate = orderDate;
 		this.customer = customer;
@@ -57,11 +58,11 @@ public class Order {
 		this.id = id;
 	}
 
-	public String getOrderDate() {
+	public LocalDate getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(String orderDate) {
+	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
 

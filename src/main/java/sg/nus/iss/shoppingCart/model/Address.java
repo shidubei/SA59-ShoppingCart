@@ -17,40 +17,31 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="address")
-public class Address {
+public class Address{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	
+	@Column(name="pre_address")
+	private String pre_address;
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	@Column(name="pre_address")
-	private String pre_address;
-	
 	public Address() {}
 	
-
-	public Address(Customer customer, String pre_address) {
-		this.customer = customer;
-		this.pre_address = pre_address;
+	public Address(String pre_address,Customer customer) {
+		this.pre_address=pre_address;
+		this.customer=customer;
 	}
-
+	
 	public int getId() {
-		return id;
+		return this.id;
 	}
-
+	
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
 	}
 
 	public String getPre_address() {
@@ -60,6 +51,13 @@ public class Address {
 	public void setPre_address(String pre_address) {
 		this.pre_address = pre_address;
 	}
-	
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 	
 }

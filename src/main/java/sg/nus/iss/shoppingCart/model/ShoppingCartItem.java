@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 @Table(name="shopping_cart_item")
 public class ShoppingCartItem {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne

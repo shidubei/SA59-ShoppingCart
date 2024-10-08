@@ -41,12 +41,11 @@ public class Customer {
 
 	public Customer() {}
 	
-	public Customer(String username, String password, String email, String contactNumber,List<Address> addresses) {
+	public Customer(String username, String password, String email, String contactNumber) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.contactNumber = contactNumber;
-		this.addresses=addresses;
 	}
 
 

@@ -31,5 +31,18 @@ public interface AddressInterfacemethods {
 	 */
 	public void addNewAddress(Address newAddress);
 	
-	public void updateAddress(String pre_address);
+	/**
+	 * Creator: Zhong Yi
+	 * Date:7 Oct 2024
+	 * Explain: This mehtod will be used when customer want to update their pre-address
+	 */
+	public void updateAddress(int id,String pre_address);
+	
+	/**
+	 * Creator: Zhong Yi
+	 * Date:7 Oct 2024
+	 * Explain: This method will be used when customer want to delete their pre_address
+	 */
+	public void deleteAddress(int id);
+	
 }

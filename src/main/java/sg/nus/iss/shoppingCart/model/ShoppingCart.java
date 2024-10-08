@@ -25,7 +25,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class ShoppingCart {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@OneToOne

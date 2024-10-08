@@ -1,5 +1,6 @@
 package sg.nus.iss.shoppingCart.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Product {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name="product_name")
@@ -26,8 +27,8 @@ public class Product {
 	@Column(name="category")
 	private String category;
 	
-	@Column(name="price")
-	private double price;
+	@Column(name="price",precision=10,scale=2)
+	private BigDecimal price;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ShoppingCartItem> shoppingCartItems;
@@ -68,12 +69,12 @@ public class Product {
 
 
 
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
 
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
