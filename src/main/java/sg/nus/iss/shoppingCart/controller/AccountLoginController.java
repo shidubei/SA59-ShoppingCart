@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import sg.nus.iss.shoppingCart.validation.SignUpValidator;
 import sg.nus.iss.shoppingCart.model.SignUp;
 import sg.nus.iss.shoppingCart.model.Customer;
-import sg.nus.iss.shoppingCart.repository.CustomerRepository;
+import sg.nus.iss.shoppingCart.service.CustomerService;
 
 @Controller
-public class TestMarkController {
+public class AccountLoginController {
 
 	// signUpValidator is for validating the following on the sign-up sheet:
 	// 1. Username is unique (does not already exist in the Customer database)
@@ -39,9 +39,9 @@ public class TestMarkController {
 	@Autowired
 	private SignUpValidator signUpValidator;
 	
-	// Access to the customer repo
+	// Access to the customer service
 	@Autowired
-	private CustomerRepository customerRepo;
+	private CustomerService customerService;
 	
 	@InitBinder
 	private void initSignUpBinder(WebDataBinder binder) {
@@ -82,7 +82,7 @@ public class TestMarkController {
 		
 		// validate that username and password is correct
 		// (there exists a user with the same name and password combo)
-		Optional<Customer> foundCustomer = customerRepo.findByNameAndPassword(loginUsername, loginPassword);
+		Optional<Customer> foundCustomer = customerService.findByNameAndPassword(loginUsername, loginPassword);
 		if (foundCustomer.isPresent()) {
 			// if a valid customer is found
 			Customer gotCustomer = foundCustomer.get();
@@ -158,7 +158,7 @@ public class TestMarkController {
 		newCustomer.setEmail(signUp.getEmail());
 		newCustomer.setContactNumber(signUp.getContactNumber());
 		newCustomer.setPassword(signUp.getPassword1());
-		customerRepo.save(newCustomer);
+		customerService.addNew(newCustomer);
 		// redirect back to front page
 		return "redirect:/logstat";
 	}

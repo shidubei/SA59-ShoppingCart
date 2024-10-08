@@ -6,6 +6,7 @@ import org.springframework.validation.Validator;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.SignUp;
 import sg.nus.iss.shoppingCart.repository.CustomerRepository;
+import sg.nus.iss.shoppingCart.service.CustomerService;
 
 import java.util.List;
 
@@ -24,8 +25,11 @@ public class SignUpValidator implements Validator {
 	public boolean need_special = false;
 
 	
+	//@Autowired
+	//private CustomerRepository customerRepo;
+
 	@Autowired
-	private CustomerRepository customerRepo;
+	private CustomerService customerService;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -50,7 +54,7 @@ public class SignUpValidator implements Validator {
 		
 		// check that the username is unique
 		String username = signUp.getUsername();
-		List<Customer> sameUserName = customerRepo.findByName(username);
+		List<Customer> sameUserName = customerService.findByName(username);
 		if (sameUserName.size() > 0) {
 			errors.rejectValue("username","error.usedusername",
 					"This username is already in use. Please use a different username.");
