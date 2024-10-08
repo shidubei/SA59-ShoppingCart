@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+// validator used for sign up data
 @Component
 public class SignUpValidator implements Validator {
 
@@ -47,7 +48,7 @@ public class SignUpValidator implements Validator {
 					"The two passwords must match");
 		}
 		
-		// check that the username is unique (must implement later)
+		// check that the username is unique
 		String username = signUp.getUsername();
 		List<Customer> sameUserName = customerRepo.findByName(username);
 		if (sameUserName.size() > 0) {
@@ -57,6 +58,7 @@ public class SignUpValidator implements Validator {
 		
 	}
 	
+	// method used for checking if a password is valid
 	public boolean isValidPassword(String password) {
 		
 		if (password.length() < min_length) {

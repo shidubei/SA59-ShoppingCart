@@ -5,6 +5,7 @@
 	</head>
 <body>
 	<table style="width:50%; margin-left: auto; margin-right: auto; border: black;">
+		<!--Will show the 'View Cart' and 'Logout' links as well as customer name if user is logged in-->
 		<tr th:if="${session.isLoggedIn}">
 			<td style="text-align: right; font-weight: bold;" th:text="${session.customerName}"></td>
 		</tr>
@@ -14,6 +15,7 @@
 		<tr th:if="${session.isLoggedIn}">
 			<td style="text-align: right; font-weight: bold;"><a th:href="@{/logout}">Logout</a></td>
 		</tr>
+		<!--Will show the 'Login' and 'Sign Up' links if user is not logged in-->
 		<tr th:unless="${session.isLoggedIn}">
 			<td style="text-align: right; font-weight: bold;"><a th:href="@{/login}">Login</a></td>
 		</tr>

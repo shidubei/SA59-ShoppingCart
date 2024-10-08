@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+// SignUp is the model used to store SignUp data
 public class SignUp {
 
 	@NotBlank(message="Email is required")
@@ -19,7 +20,6 @@ public class SignUp {
 			message="Either leave Contact Number blank or input a proper contact number (at least 8 digits).")
 	public String contactNumber;
 	
-	//@NotBlank(message="Password cannot be blank")
 	public String password1;
 	
 	public String password2;

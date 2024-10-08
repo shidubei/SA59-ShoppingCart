@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Create New Account</title>
+	<title>Login to Your Account</title>
 </head>
 <body>
 	<h2 style="text-align: center"> Sign Up </h2>
 	<form action="#" th:action="@{/login}" method="post">
 	<table style="width:50%; margin-left: auto; margin-right: auto;">
+		<!--Will show this error if the user keyed in the wrong username or password-->
 		<tr th:if="${showWrongPasswordError}">
 			<td style="color:red">Your username or password is incorrect</td>
 		</tr>
