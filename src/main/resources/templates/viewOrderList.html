@@ -15,8 +15,6 @@
                     <th>Order ID</th>
                     <th>Customer Name</th>
                     <th>Order Date</th>
-                    <th>Total Amount</th>
-                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,8 +23,6 @@
                     <td th:text="${order.id}"></td>
                     <td th:text="${order.customer.name}"></td>
                     <td th:text="${order.orderDate}"></td>
-                    <td th:text="${order.totalAmount}"></td>
-                    <td th:text="${order.status}"></td>
                 </tr>
             </tbody>
         </table>

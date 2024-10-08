@@ -2,6 +2,7 @@ package sg.nus.iss.shoppingCart.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,12 +18,16 @@ public class Customer {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name="username")
 	private String name;
 	
+	@Column(name="password")
 	private String password;
 	
+	@Column(name="email")
 	private String email;
 	
+	@Column(name="contact_number")
 	private String contactNumber;
 	
 	@OneToMany(mappedBy="customer")
@@ -32,8 +37,7 @@ public class Customer {
 	private ShoppingCart shoppingCart;
 
 	public Customer() {}
-	public Customer(int id, String name, String password, String email, String contactNumber) {
-		this.id = id;
+	public Customer(String name, String password, String email, String contactNumber) {
 		this.name = name;
 		this.password = password;
 		this.email = email;

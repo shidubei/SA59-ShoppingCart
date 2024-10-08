@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;import sg.nus.iss.shoppingCart.interfacemethods.ShoppingCartInterface;
 import sg.nus.iss.shoppingCart.model.ShoppingCart;
 import sg.nus.iss.shoppingCart.model.ShoppingCartItem;
@@ -27,9 +29,9 @@ public class ShoppingCartController {
 	 * Date: 05-10-2024
 	 * Explain: Get user's shopping cart and display it in HTML
 	 */
-	@GetMapping("/{id}/shoppingCart")
-	public String getShoppingCartPage(@PathVariable int id, Model model) {
-		ShoppingCart sc = scService.getShoppingCart(id);
+	@GetMapping("/shoppingCart")
+	public String getShoppingCartPage(HttpSession sessionObj, Model model) {
+		ShoppingCart sc = scService.getShoppingCart((int)sessionObj.getAttribute("customerId"));
 		List<ShoppingCartItem> items = sc.getShoppingCartItems();
 		for(ShoppingCartItem s:items) {
 			System.out.printf("Product: %s, quantity: %d%n",s.getProduct().getName(),s.getQuantity());
