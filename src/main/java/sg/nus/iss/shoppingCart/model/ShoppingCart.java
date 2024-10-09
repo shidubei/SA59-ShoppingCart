@@ -24,6 +24,8 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class ShoppingCart {
+	// change:
+	// 1.IDENTITY to map auto_increment strategy in MySQL
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

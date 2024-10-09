@@ -40,9 +40,9 @@ public class AddressController {
 	 * Explain: Handle url /address and list Address
 	 */
 	@GetMapping("/address")
-	public String listAddress(HttpSession session,Model model) {
-		Customer customer = (Customer)session.getAttribute("customer");
-		List<Address> addressList = addressService.listAddressByCutomer(customer.getId());
+
+	public String listAddress(HttpSession sessionObj,Model model) {
+		List<Address> addressList = addressService.listAddressByCutomer((int)sessionObj.getAttribute("customerId"));
 		model.addAttribute("addresses",addressList);
 		return "display-address";
 	}
@@ -77,6 +77,7 @@ public class AddressController {
 	@PostMapping("/address/add")
 	public String addAddress(HttpSession session, @RequestParam("address") String address) {
 		Customer customer = (Customer)session.getAttribute("customer");
+
 		Address newAddress = new Address();
 		newAddress.setCustomer(customer);
 		newAddress.setPre_address(address);

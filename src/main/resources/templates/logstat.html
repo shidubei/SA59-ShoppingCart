@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>User Page</title>
+	</head>
+	<style>
+	    body {
+	        font-family: Arial, sans-serif;
+	        display: flex;
+	        height: 100vh;
+	        margin: 0;
+	    }
+	    nav {
+	        width: 200px;
+	        background-color: #f0f0f0;
+	        padding: 15px;
+	        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+	    }
+	    nav a {
+	        display: block;
+	        padding: 10px;
+	        text-decoration: none;
+	        color: #333;
+	        margin-bottom: 10px;
+	        border-radius: 4px;
+	    }
+	    nav a:hover {
+	        background-color: #dcdcdc;
+	    }
+	    main {
+	        flex-grow: 1;
+	        padding: 20px;
+	        background-color: #fff;
+	    }
+	</style>
+<body>
+	<nav th:if="${session.isLoggedIn}">
+	    <h3>
+			<span th:text="${session.customerName}">User Name</span>
+		</h3>
+		<div>
+			<a th:href="@{/cart}">Your Shopping Cart</a>
+		</div>
+	    
+		<div>
+			<a th:href="@{/customer/address}">Your Address</a>
+		</div>
+		<div>
+			<a th:href="@{/orders/view}">Your Orders</a>
+		</div>
+		<div>
+			<a th:href="@{/products}">Back To Products List</a>
+		</div>
+		<div>
+			<a th:href="@{/logout}">Logout</a>
+		</div>
+	</nav>
+	<main th:if="${session.isLoggedIn}">
+	    <h1>Welcome To User Page</h1>
+	    <p>You can show your page information here</p>
+	</main>
+	<main th:unless="${session.isLoggedIn}">
+	    <a th:href="@{/login}">Login</a>
+	    <a th:href="@{/signup}">Sign Up</a>
+	</main>
+<!--
+		<table style="width:50%; margin-left: auto; margin-right: auto; border: black;">
+		Will show the 'View Cart' and 'Logout' links as well as customer name if user is logged in
+		<tr th:if="${session.isLoggedIn}">
+			<td style="text-align: right; font-weight: bold;" th:text="${session.customerName}"></td>
+		</tr>
+		<tr th:if="${session.isLoggedIn}">
+			<td style="text-align: right; font-weight: bold;"><a th:href="@{/cart}">View Cart</a></td>
+		</tr>
+		<tr th:if="${session.isLoggedIn}">
+			<td style="text-align: right; font-weight: bold;"><a th:href="@{/logout}">Logout</a></td>
+		</tr>
+		<tr th:if="${session.isLoggedIn}">
+			<td style="text-align: right; font-weight: bold;"><a th:href="@{/customer/address}">Address</a></td>
+		</tr>
+		Will show the 'Login' and 'Sign Up' links if user is not logged in
+		<tr th:unless="${session.isLoggedIn}">
+			<td style="text-align: right; font-weight: bold;"><a th:href="@{/login}">Login</a></td>
+		</tr>
+		<tr th:unless="${session.isLoggedIn}">
+			<td style="text-align: right; font-weight: bold;"><a th:href="@{/signup}">Sign Up</a></td>
+		</tr>
+	</table>
+-->
+
+</body>
+</html>

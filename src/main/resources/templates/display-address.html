@@ -3,14 +3,129 @@
 <head>
 	<meta charset="UTF-8"/>
 	<title>Address Page</title>
+	<style>
+		body {
+		    font-family: Arial, sans-serif;
+		    display: flex;
+		    height: 100vh;
+		    margin: 0;
+		}
+		nav {
+		    width: 200px;
+		    background-color: #f0f0f0;
+		    padding: 15px;
+		    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+		}
+		nav a {
+		    display: block;
+		    padding: 10px;
+		    text-decoration: none;
+		    color: #333;
+		    margin-bottom: 10px;
+		    border-radius: 4px;
+		}
+		nav a:hover {
+		    background-color: #dcdcdc;
+		}
+		main {
+		    flex-grow: 1;
+		    padding: 20px;
+		    background-color: #fff;
+		}	
+	    ul {
+	        list-style-type: none; /* 去掉默认的列表符号 */
+	        padding: 0;
+	        margin: 0;
+	    }
+	    li {
+	        display: flex;
+	        justify-content: space-between;
+	        align-items: center;
+	        padding: 10px;
+	        margin-bottom: 10px;
+	        background-color: #f9f9f9; /* 背景色 */
+	        border-radius: 5px;
+	        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+	        transition: background-color 0.3s;
+	    }
+	    li:hover {
+	        background-color: #f1f1f1; /* 鼠标悬停时的背景色 */
+	    }
+	    .address-info {
+	        font-size: 16px;
+	        font-weight: bold;
+	    }
+	    .action-buttons {
+	        display: flex;
+	        gap: 10px; /* 按钮之间的间距 */
+	    }
+	    .action-buttons a {
+	        padding: 8px 12px;
+	        background-color: #d3d3d3; /* 默认浅灰色背景 */
+	        color: white;
+	        text-decoration: none;
+	        border-radius: 5px;
+	        font-size: 14px;
+	        transition: background-color 0.3s;
+	    }
+	    .action-buttons a:hover {
+	        background-color: #a9a9a9; /* 悬停时的深灰色 */
+	    }
+	    .action-buttons a.delete {
+	        background-color: #e74c3c; /* 删除按钮的红色背景 */
+	    }
+	    .action-buttons a.delete:hover {
+	        background-color: #c0392b; /* 删除按钮悬停时的更深红色 */
+	    }
+	</style>
+
 </head>
 <body>
-	<ul>
-		<li th:each="address:${addresses}">
-			<span th:text="${address.pre_address}"></span>
-			<a th:href="@{address/update(id=${address.id})}">Update</a>
-			<a th:href="@{address/delete(id=${address.id})}">Delete</a>
-		</li>
-	</ul>
+	<nav th:if="${session.isLoggedIn}">
+	    <h3>
+			<span th:text="${session.customerName}">User Name</span>
+		</h3>
+		<div>
+			<a th:href="@{/cart}">Your Shopping Cart</a>
+		</div>
+	    
+		<div>
+			<a href="#">Your Address</a>
+		</div>
+		<div>
+			<a th:href="@{/orders/view}">Your Orders</a>
+		</div>
+		<div>
+			<a th:href="@{/products}">Back To Products List</a>
+		</div>
+		<div>
+			<a th:href="@{/logout}">Logout</a>
+		</div>
+	</nav>
+	<main>
+	    <ul>
+	        <li th:each="address : ${addresses}">
+	            <span class="address-info" th:text="${address.pre_address}"></span>
+	            <div class="action-buttons">
+	                <a th:href="@{address/update(id=${address.id})}">Update</a>
+	                <a th:href="@{address/delete(id=${address.id})}" class="delete">Delete</a>
+	            </div>
+	        </li>
+	    </ul>
+		<div class="action-buttons">
+			<a th:href="@{address/add}">Add Address</a>
+		</div>
+	</main>
+
+	<!--<main>
+		<ul>
+			<li th:each="address:${addresses}">
+				<span th:text="${address.pre_address}"></span>
+				<a th:href="@{address/update(id=${address.id})}">Update</a>
+				<a th:href="@{address/delete(id=${address.id})}">Delete</a>
+			</li>
+		</ul>
+	</main>-->
+
 </body>
 </html>

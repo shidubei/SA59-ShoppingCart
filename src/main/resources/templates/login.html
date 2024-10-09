@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Login to Your Account</title>
+	<style>
+	    body {
+	        margin: 0;
+	        padding: 0;
+	        height: 100vh;
+	        background-image: url('https://example.com/your-background-image.jpg'); /* 替换为您自己的背景图片链接 */
+	        background-size: cover;
+	        display: flex;
+	        justify-content: flex-end;
+	        align-items: center;
+	    }
+	    .login-container {
+	        background-color: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+	        border-radius: 10px;
+	        padding: 20px;
+			margin:20px;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	        width: 300px;
+	    }
+	    .login-title {
+	        text-align: center;
+	        font-size: 24px;
+	        margin-bottom: 20px;
+	    }
+	    .form-group {
+	        margin-bottom: 15px;
+	    }
+	    label {
+	        display: block;
+	        margin-bottom: 5px;
+	    }
+	    input[type="text"],
+	    input[type="password"] {
+	        width: 100%;
+	        padding: 10px;
+	        border: 1px solid #ccc;
+	        border-radius: 5px;
+	    }
+	    .action-links {
+	        display: flex;
+	        justify-content: space-between;
+	    }
+	    a {
+	        text-decoration: none;
+	        color: #007bff; /* 蓝色链接 */
+	    }
+	    a:hover {
+	        text-decoration: underline;
+	    }
+	</style>
+</head>
+<body>
+	<div class="login-container">
+	    <div class="login-title">Log In</div>
+	    <form action="#" th:action="@{/login}" method="post">
+			<span th:if="${showWrongPasswordError}">Your username or password is incorrect</span>
+	        <div class="form-group">
+	            <label for="username">UserName</label>
+	            <input type="text" id="username" name="username"  th:value="${username}" required>
+	        </div>
+	        <div class="form-group">
+	            <label for="password">Password</label>
+	            <input type="password" id="password" name="password" th:value="${password}" required>
+	        </div>
+	        <div class="action-links">
+	            <input type="submit" value="Login" />
+				<input type="reset" value="Reset" />
+	        </div>
+	    </form>
+	</div>
+	
+<!--
+	<h2 style="text-align: center"> Sign Up </h2>
+	<form action="#" th:action="@{/login}" method="post">
+	<table style="width:50%; margin-left: auto; margin-right: auto;">
+		Will show this error if the user keyed in the wrong username or password
+		<tr th:if="${showWrongPasswordError}">
+			<td style="color:red">Your username or password is incorrect</td>
+		</tr>
+		<tr>
+		<th>Username:</th>
+		<td><input type="text" name="username" required="required" th:value="${username}"></td>
+		</tr>
+
+		<tr>
+		<th>Password:</th>
+		<td><input type="password" name="password" required="required" th:value="${password}"></td>
+		</tr>		
+		
+		</tr>
+		<td>
+		<input type="submit" value="Login" /> &nbsp; &nbsp; <input
+		type="reset" value="Reset" />
+		</td>
+		</tr>
+		
+	</table>
+	</form>
+-->
+</body>
+</html>

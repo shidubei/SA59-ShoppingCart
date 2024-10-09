@@ -1,0 +1,92 @@
+<<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product List</title>
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin-right: 20px;
+        }
+
+        /* 产品列表样式 */
+        .container {
+            padding: 20px;
+        }
+
+        .product-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .product-list li {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-list span {
+            margin-right: 20px;
+        }
+
+        .add-to-cart {
+            background-color: grey;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .add-to-cart:hover {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <h1>Product List</h1>
+        <a th:href="@{/logstat}">User Interface</a>
+    </div>
+
+    <!-- 产品列表容器 -->
+    <div class="container">
+        <ul class="product-list">
+            <li th:each="product : ${products}">
+                <span th:text="${product.name}">Product Name</span>
+                <span th:text="${product.category}">Category</span>
+                <span th:text="${product.price}">Price</span>
+                <a class="add-to-cart" th:href="@{cart/add(id=${product.id})}">Add to Cart</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

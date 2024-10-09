@@ -19,7 +19,7 @@ public class Customer {
 	private int id;
 	
 	@Column(name="username")
-	private String username;
+	private String name;
 	
 	@Column(name="password")
 	private String password;
@@ -40,9 +40,11 @@ public class Customer {
 	private ShoppingCart shoppingCart;
 
 	public Customer() {}
-	
-	public Customer(String username, String password, String email, String contactNumber) {
-		this.username = username;
+
+	// change:
+	// 1.Customer Argument don't need Id,because Id is auto_increment
+	public Customer(String name, String password, String email, String contactNumber) {
+		this.name = name;
 		this.password = password;
 		this.email = email;
 		this.contactNumber = contactNumber;
@@ -59,13 +61,13 @@ public class Customer {
 	}
 
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

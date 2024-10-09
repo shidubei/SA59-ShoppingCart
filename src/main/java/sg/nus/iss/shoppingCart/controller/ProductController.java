@@ -1,3 +1,4 @@
+
 package sg.nus.iss.shoppingCart.controller;
 
 import java.util.List;
@@ -10,36 +11,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import sg.nus.iss.shoppingCart.interfacemethods.ProductInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Product;
 import sg.nus.iss.shoppingCart.service.ProductService;
-import sg.nus.iss.shoppingCart.service.ShoppingCartService;
 
+import java.util.List;
 
 @Controller
 public class ProductController {
-	@Autowired
-	private ProductInterfacemethods productService;
 	
-	@Autowired
-	public void setProductService(ProductService productService) {
-		this.productService=productService;
-	}
-	public void setShoppingCartService(ShoppingCartService shoppingService) {
-		
-	}
-	
-	
-	/*
-	 * Creator: ZhongYi
-	 * Date:5 Oct 2024
-	 * Explain: this handler is to list Product
-	 */
-	@GetMapping("/products")
-	public String listProducts(Model model) {
-		// 调用service里面的方法
-		List<Product> productsList =productService.listProducts();
-		// 添加到模型里面
-		model.addAttribute("productsList",productsList);
-		// 返回给Thymeleaf处理
-		return "list-product";
-	}
+	// change:
+	// 1.use interface and service to use server
+    @Autowired
+    private ProductInterfacemethods productService;
+    
+    @Autowired
+    private void setProductService(ProductService productService) {
+    	this.productService=productService;
+    }
 
+    @GetMapping("/products")
+    public String listProducts(Model model) {
+        List<Product> products = productService.listProducts();
+        model.addAttribute("products", products);
+        return "productList"; // 返回视图名称
+    }
 }
+

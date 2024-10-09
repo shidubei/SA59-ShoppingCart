@@ -24,7 +24,6 @@ public class AddressService implements AddressInterfacemethods {
 	@Autowired
 	AddressRepository addressRepo;
 	
-	// use to update
 	@PersistenceContext
 	private EntityManager entityManager;
 	
