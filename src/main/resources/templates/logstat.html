@@ -10,10 +10,13 @@
 			<td style="text-align: right; font-weight: bold;" th:text="${session.customerName}"></td>
 		</tr>
 		<tr th:if="${session.isLoggedIn}">
-			<td style="text-align: right; font-weight: bold;"><a th:href="@{/cart}">View Cart</a></td>
+			<td style="text-align: right; font-weight: bold;"><a th:href="@{/shoppingCart}">View Cart</a></td>
 		</tr>
 		<tr th:if="${session.isLoggedIn}">
 			<td style="text-align: right; font-weight: bold;"><a th:href="@{/logout}">Logout</a></td>
+		</tr>
+		<tr th:if="${session.isLoggedIn}">
+			<td style="text-align: right; font-weight: bold;"><a th:href="@{/customer/address}">Address</a></td>
 		</tr>
 		<!--Will show the 'Login' and 'Sign Up' links if user is not logged in-->
 		<tr th:unless="${session.isLoggedIn}">

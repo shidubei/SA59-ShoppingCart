@@ -1,41 +1,44 @@
 package sg.nus.iss.shoppingCart.model;
 
 
-import java.util.ArrayList;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class Product {
+	// change:
+	// 1.IDENTITY map to MySQL auto_increment strategy,don't use AUTO(when I run will cause problem)
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name="product_name")
 	private String name;
 	
-	private double price;
+	// change:
+	// 2. BigDecimal map to price Type Decimal(10,2) in datebase
+	@Column(name="price",precision=10,scale=2)
+	private BigDecimal price;
+	
+	@Column(name="category")
+	private String category;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ShoppingCartItem> shoppingCartItems;
 	
-//	@OneToMany(fetch = FetchType.EAGER, mappedBy="orderProduct")
-//	private List<OrderDetails> productInOrder;
-	
 	public Product() {}
-	
-//	public Product() {
-//		this.shoppingCartItems = new ArrayList<>();
-//		this.productInOrder = new ArrayList<>();
-//	}
+
 	
 	public int getId() {
 		return id;
@@ -53,13 +56,23 @@ public class Product {
 		this.name = name;
 	}
 
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
+	public String getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 
 	public List<ShoppingCartItem> getShoppingCartItems() {
 		return shoppingCartItems;

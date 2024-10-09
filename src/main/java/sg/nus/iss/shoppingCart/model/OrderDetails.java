@@ -1,35 +1,40 @@
 package sg.nus.iss.shoppingCart.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+/**
+ * Creator:
+ * Date:7 Oct 2024
+ * Explain: the middle table between order and product
+ */
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="shopping_cart_item")
-public class ShoppingCartItem {
-	// change:
-	// 1.IDENTITY to map auto_increment strategy in MySQL
+@Table(name="order_details")
+public class OrderDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="shopping_cart_id")
-	private ShoppingCart shoppingCart;
-	
+	@JoinColumn(name="order_id")
+	private Order order;
+
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	private Product product;
 	
-	@Column(name="product_qty")
-	private int quantity;
+	public OrderDetails() {}
 
-	public ShoppingCartItem() {
+	public OrderDetails(int id, Order order, Product product) {
+		this.id = id;
+		this.order = order;
+		this.product = product;
 	}
 
 	public int getId() {
@@ -40,12 +45,12 @@ public class ShoppingCartItem {
 		this.id = id;
 	}
 
-	public ShoppingCart getShoppingCart() {
-		return shoppingCart;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setShoppingCart(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public Product getProduct() {
@@ -55,14 +60,8 @@ public class ShoppingCartItem {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+	
+	
 	
 	
 }

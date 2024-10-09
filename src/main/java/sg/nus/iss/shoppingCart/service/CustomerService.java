@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterface;
+import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.ShoppingCart;
 import sg.nus.iss.shoppingCart.repository.CustomerRepository;
@@ -15,7 +15,7 @@ import sg.nus.iss.shoppingCart.repository.ShoppingCartRepository;
 
 @Service
 @Transactional
-public class CustomerService implements CustomerInterface {
+public class CustomerService implements CustomerInterfacemethods {
 	@Autowired
 	private CustomerRepository customerRepo;
 	

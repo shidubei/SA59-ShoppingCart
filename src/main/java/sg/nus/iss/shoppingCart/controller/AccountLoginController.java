@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import sg.nus.iss.shoppingCart.validation.SignUpValidator;
 import sg.nus.iss.shoppingCart.model.SignUp;
+import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.service.CustomerService;
 
@@ -41,7 +42,12 @@ public class AccountLoginController {
 	
 	// Access to the customer service
 	@Autowired
-	private CustomerService customerService;
+	private CustomerInterfacemethods customerService;
+	
+	@Autowired
+	private void setCustomerService(CustomerService customerService) {
+		this.customerService=customerService;
+	}
 	
 	@InitBinder
 	private void initSignUpBinder(WebDataBinder binder) {
@@ -86,6 +92,7 @@ public class AccountLoginController {
 		if (foundCustomer.isPresent()) {
 			// if a valid customer is found
 			Customer gotCustomer = foundCustomer.get();
+			System.out.println(gotCustomer.getName());
 			// username and password to be keyed into the login box can now be empty
 			model.addAttribute("username","");
 			model.addAttribute("password","");
@@ -96,6 +103,9 @@ public class AccountLoginController {
 			sessionObj.setAttribute("isLoggedIn",true);
 			// HttpSession to save the customerId and name to reference
 			// Refer to this value for pages that require logins to access
+			// change:
+			// 1.add customer attribute
+			sessionObj.setAttribute("customer", gotCustomer);
 			sessionObj.setAttribute("customerId", gotCustomer.getId());
 			sessionObj.setAttribute("customerName", gotCustomer.getName());
 			System.out.println("Current isLoggedIn status: "+model.getAttribute("isLoggedIn"));

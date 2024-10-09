@@ -18,7 +18,10 @@ public class RedirectIfLoggedOutInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-		boolean isLoggedIn = (boolean) request.getSession().getAttribute("isLoggedIn");
+		// change:
+		// 1.Can not change to boolean directly. need a if to check
+		Object sessionAttr = request.getSession().getAttribute("isLoggedIn");
+		boolean isLoggedIn = sessionAttr !=null && (Boolean) sessionAttr;
 		if (isLoggedIn == false) {
 			response.sendRedirect("/login");
 			return false;
