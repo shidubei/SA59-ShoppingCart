@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class RedirectIfLoggedInInterceptor implements HandlerInterceptor {
 	
-	// have some problem
+	// have some logic problem
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 		// change:

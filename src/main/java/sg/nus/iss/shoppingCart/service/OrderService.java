@@ -18,6 +18,8 @@ public class OrderService implements OrderInterfacemethods{
 	@Autowired
 	private OrderRepository orderRepository;
 	
+	// logic problem: this method will return all data in Order table,
+	// but in fact, we only need current customer Order,so need modify.
 	@Override
 	public List<Order> getAllOrders() {
 		return orderRepository.findAll();
