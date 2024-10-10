@@ -19,7 +19,7 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Product {
 	// change:
-	// 1.IDENTITY map to MySQL auto_increment strategy
+	// 1.IDENTITY map to MySQL auto_increment strategy,don't use AUTO(when I run will cause problem)
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
@@ -28,7 +28,7 @@ public class Product {
 	private String name;
 	
 	// change:
-	// 2. BigDecimal map to price Decimal(10,2) in datebase
+	// 2. BigDecimal map to price Type Decimal(10,2) in datebase
 	@Column(name="price",precision=10,scale=2)
 	private BigDecimal price;
 	
@@ -66,6 +66,16 @@ public class Product {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
+	public String getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 
 	public List<ShoppingCartItem> getShoppingCartItems() {
 		return shoppingCartItems;

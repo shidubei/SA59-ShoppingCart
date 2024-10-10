@@ -15,4 +15,8 @@ public interface CustomerInterfacemethods {
 	public void addNew(Customer customer);
 	
 	public List<Customer> findByName(String name);
+	
+	//Added find by customer by Id - Azril
+	public Customer findCustomerById(int customerId);
+
 }

@@ -3,64 +3,51 @@ package sg.nus.iss.shoppingCart.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="orders")
+@Table (name ="ordertable", schema = "shoppingcart")
 public class Order {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
 	
-	// change:
-	// 1. order_date in datebase's type is Date, so use Local Date to map the type
-	@Column(name="order_date")
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	private int id; 
+	
+	@Column (name = "orderDate", length = 35)
 	private LocalDate orderDate;
 	
+	@Column (name = "status", length = 10)
+	private String status; 
+	
+	@Column (name = "totalAmount", length = 10) 
+	private double totalAmount; 
+	
 	@ManyToOne
-	@JoinColumn(name="customer_id")
+	@JoinColumn (name = "customer_id")
 	private Customer customer;
 	
-	// change:
-	// 2. order_details table have other attribute, so we need a OrderDetails Entity to Map it
-	//    so do not use JoinTable to Map
-	@OneToMany(fetch=FetchType.EAGER,mappedBy="order",cascade=CascadeType.ALL,orphanRemoval=true)
-	private List<OrderDetails> orderDetails;
-	
-	//Added TEMPORARY 
-	/*NEED TO REMOVE GETTER SETTER AND CONSTRUCTOR*/
-	private String status;
-	private String products;
-	
+	@OneToMany(mappedBy= "order")
+	private List<OrderDetails> orderDetails; 
+		
 	public Order() {}
+
 	
-	public Order(int id, LocalDate orderDate, Customer customer) {
+	public Order(int id, LocalDate orderDate, String status, double totalAmount, Customer customer) {
 		this.id = id;
 		this.orderDate = orderDate;
+		this.status = status;
+		this.totalAmount = totalAmount;
 		this.customer = customer;
 	}
 
-	public Order(int id, LocalDate orderDate, Customer customer, List<OrderDetails> orderDetails, String status,
-			String products) {
-		this.id = id;
-		this.orderDate = orderDate;
-		this.customer = customer;
-		this.orderDetails = orderDetails;
-		this.status = status;
-		this.products = products;
-	}
 
 	public int getId() {
 		return id;
@@ -78,14 +65,6 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -94,20 +73,29 @@ public class Order {
 		this.status = status;
 	}
 
-	public String getProducts() {
-		return products;
+	public double getTotalAmount() {
+		return totalAmount;
 	}
 
-	public void setProducts(String products) {
-		this.products = products;
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
-	public List<OrderDetails> getOrderDetails() {
-		return orderDetails;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setOrderDetails(List<OrderDetails> orderDetails) {
-		this.orderDetails = orderDetails;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", orderDate=" + orderDate + ", status=" + status + ", totalAmount=" + totalAmount
+				+ ", customer=" + customer + "]";
+	}
 }
+
+/* Creator: Azril
+ * Date: 2024-10-10 */
+

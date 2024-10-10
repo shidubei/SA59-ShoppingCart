@@ -1,9 +1,8 @@
-package sg.nus.iss.shoppingCart.repository;
+package repository;
 
+import model.ShoppingCartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import sg.nus.iss.shoppingCart.model.ShoppingCartItem;
-
-public interface ShoppingCartItemRepository extends JpaRepository <ShoppingCartItem, Integer>{
-
+public interface ShoppingCartItemRepository extends JpaRepository<ShoppingCartItem,Integer> {
+    ShoppingCartItem findByProductId(int productId);
 }

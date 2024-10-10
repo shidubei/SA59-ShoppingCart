@@ -12,66 +12,66 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.interfacemethods.OrderInterfacemethods;
+import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.Order;
+import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.repository.OrderRepository;
+import sg.nus.iss.shoppingCart.service.CustomerService;
 import sg.nus.iss.shoppingCart.service.OrderService;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/customer/order")
 public class OrderController {
-	
-	// change: 
-	// 1.use service to implement service, not direct use service
+
 	@Autowired
 	private OrderRepository orderRepository;
-	
+
 	@Autowired
 	private OrderInterfacemethods orderService; 
 	
 	@Autowired
-	private void setOrderService(OrderService orderService) {
-		this.orderService=orderService;
+	private CustomerRepository customerRepo; 
+	
+	@Autowired 
+	private CustomerInterfacemethods customerService; 
+	
+	@Autowired
+	public void setOrderService (OrderService oserviceImpl) {
+		this.orderService = oserviceImpl;
 	}
 	
-	
+	@Autowired
+	public void setCustomerService (CustomerService cserviceImpl) {
+		this.customerService = cserviceImpl;
+	}
+
 	//Simple greeting message
 	@GetMapping("/greeting" )
 	public String greetingOrder(Model model) {
-		System.out.println("This line is inside console");
+		System.out.println("This line is inside console for /greeting");
 		model.addAttribute("message", "Welcome to order page!"); 
 		return "/greeting-order";
 	}
 	
-	//View all orders in system
-	@GetMapping("/display-order")
-	public String displayOrder(Model model) {
-		System.out.println("This line is from /display-order");
-		List<Order> orders = orderService.findAllOrder();
-		model.addAttribute("message", "Order List");
-		model.addAttribute("orders", orders);
-		return "/display-order";
-		}
-	
-	//View orders by Order ID 
-	//GOT ISSUE 
-	@GetMapping("/display-order/displayByOrderId/{id}")
-	public String displayOrderByOrderId(@PathVariable int id) {
-		System.out.println("This line is from /display-order/displayByOrderId");
-
-		List<Order> orders = orderRepository.findById(id);
-		if(!orders.isEmpty()) {
-			orders.forEach(order -> { 
-			System.out.println(order.getId());
-			System.out.println(order.getOrderDate());
-			System.out.println(order.getStatus());
-			System.out.println(order.getProducts());
-			});
-			return "/display-order-orderId";
-		}
-	    //Order Id incorrect, redirect to the main order display page
-		return "redirect:/order/display-order";
+	@GetMapping("/vieworder/{customerId}")
+	public String getOrdersByCustomer(@PathVariable int customerId, Model model) {
+	    Customer customer = customerService.findCustomerById(customerId);
+	    if (customer == null) {
+	        model.addAttribute("message", "Customer not found.");
+	        return "vieworder-unsuccessful"; 
+	    }
+	    List<jakarta.persistence.criteria.Order> orders = orderService.findOrdersByCustomer(customer);
+	    if (orders.isEmpty()) {
+	        model.addAttribute("message", "No orders found for this customer.");
+	    } else {
+	        model.addAttribute("message", "Order history for customer ID: " + customerId);
+	        model.addAttribute("orders", orders);
+	    }
+	    return "vieworder"; 
 	}
+	
 	
 	//Create ORDER from SHOPPINGCART ITEM that has been checked-out
 	@GetMapping("/create-order") 
@@ -87,3 +87,6 @@ public class OrderController {
 		return "redirect:/create-order";
 	}
 }
+
+/* Creator: Azril
+ * Date: 2024-10-10 */
