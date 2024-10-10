@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Update Account Details</title>
+</head>
+<body>
+	<h2 style="text-align: center"> Update Account Details </h2>
+	<form th:action="@{/updatedetails}" method="post" th:object="${updatedetails}">
+	<table style="width:50%; margin-left: auto; margin-right: auto;">
+		
+		<tr>
+		<td><input type="hidden" th:field="*{customerId}" /></td>
+		</tr>
+		
+		<tr>
+		<th>Email:</th>
+		<td><input type="text" th:field="*{email}" /></td>
+		<!--Will show this error if the user keyed in an invalid email-->
+		<td  th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></td>
+		</tr>
+		
+		<tr>
+		<th>Username:</th>
+		<td><input type="text" th:field="*{username}" /></td>
+		<!--Will show this error if the user keyed in an invalid username-->
+		<td th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red"></td>
+		</tr>
+
+		<tr>
+		<th>Contact Number:</th>
+		<td><input type="text" th:field="*{contactNumber}" /></td>
+		<!--Will show this error if the user keyed in an invalid contact number-->
+		<td th:if="${#fields.hasErrors('contactNumber')}" th:errors="*{contactNumber}" style="color:red"></td>
+		</tr>	
+		
+		<tr>
+		<th>New Password (leave blank if not changing password):</th>
+		<td><input type="password" th:field="*{password1}" /></td>
+		<!--Will show this error if the user keyed in an invalid password-->
+		<td th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" style="color:red"></td>
+		</tr>		
+
+		<tr>
+		<th>Confirm New Password (leave blank if not changing password):</th>
+		<td><input type="password" th:field="*{password2}" /></td>
+		<!--Will show this error if the confirm password does not match the previous password-->
+		<td th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" style="color:red"></td>
+		</tr>
+
+
+		<tr>
+		<th>Re-Type Old Password:</th>
+		<td><input type="password" th:field="*{oldPassword}" /></td>
+		<!--Will show this error if the user keyed in an invalid password-->
+		<td th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}" style="color:red"></td>
+		</tr>
+		
+		</tr>
+		<td>
+		<input type="submit" value="Save" /> &nbsp; &nbsp; <input
+		type="reset" value="Reset" />
+		</td>
+		</tr>
+		
+	</table>
+	</form>
+</body>
+</html>

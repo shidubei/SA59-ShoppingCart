@@ -20,5 +20,6 @@ public class LoginStatusConfig implements WebMvcConfigurer {
 	  @Override
 	  public void addInterceptors(InterceptorRegistry registry) {
 		  registry.addInterceptor(redirectIfLoggedInInterceptor).addPathPatterns("/login","/signup");
+		  registry.addInterceptor(redirectIfLoggedOutInterceptor).addPathPatterns("/updatedetails");
 	  }
 }

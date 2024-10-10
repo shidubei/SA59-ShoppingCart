@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 import sg.nus.iss.shoppingCart.validation.SignUpValidator;
+import sg.nus.iss.shoppingCart.validation.UpdateDetailsValidator;
 import sg.nus.iss.shoppingCart.model.SignUp;
 import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
@@ -165,12 +166,13 @@ public class AccountLoginController {
 			return "create-account";
 		}
 		// if successful, create a new customer account
-		Customer newCustomer = new Customer();
-		newCustomer.setName(signUp.getUsername());
-		newCustomer.setEmail(signUp.getEmail());
-		newCustomer.setContactNumber(signUp.getContactNumber());
-		newCustomer.setPassword(signUp.getPassword1());
-		customerService.addNew(newCustomer);
+		//Customer newCustomer = new Customer();
+		//newCustomer.setName(signUp.getUsername());
+		//newCustomer.setEmail(signUp.getEmail());
+		//newCustomer.setContactNumber(signUp.getContactNumber());
+		//newCustomer.setPassword(signUp.getPassword1());
+		//customerService.addNew(newCustomer);
+		customerService.addNew(signUp);
 		// redirect back to front page
 		return "redirect:/logstat";
 	}
