@@ -14,7 +14,8 @@
 			<th>Order ID</th>
 			<th>Order Date</th>
 			<th>Order Status</th>
-			<th>Product</th>
+			<th>Total Amount</th>
+			<th>Customer ID</th>
 		</tr>
 	</thead>
 	<!--Table Body, using LOOP-->
@@ -23,7 +24,8 @@
 			<td th:text="${order.id}"></td>
 			<td th:text="${order.orderDate}"></td>
 			<td th:text="${order.status}"></td>
-			<td th:text="${order.products}"></td>
+			<td th:text="${order.totalAmount}"></td>
+			<td th:text="${order.customer.id}"></td>
 	</tbody>
 	</table>
 </div>
