@@ -55,7 +55,6 @@ public class ShoppingCartService implements ShoppingCartInterface{
 		// TODO Auto-generated method stub
 		
 	}
-	
 	/*
 	@Override
 	@Transactional

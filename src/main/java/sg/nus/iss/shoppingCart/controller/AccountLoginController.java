@@ -28,6 +28,7 @@ import sg.nus.iss.shoppingCart.model.SignUp;
 import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.service.CustomerService;
+import sg.nus.iss.shoppingCart.service.ShoppingCartService;
 
 @Controller
 public class AccountLoginController {
@@ -44,8 +45,9 @@ public class AccountLoginController {
 	@Autowired
 	private CustomerInterfacemethods customerService;
 	
+
 	@Autowired
-	private void setCustomerService(CustomerService customerService) {
+	private void setCustomerService(CustomerService customerService, ShoppingCartService scService) {
 		this.customerService=customerService;
 	}
 	

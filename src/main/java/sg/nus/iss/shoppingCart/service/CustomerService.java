@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
@@ -24,13 +23,13 @@ public class CustomerService implements CustomerInterfacemethods {
 	private ShoppingCartRepository shoppingCartRepo;
 	
 	@Override
-	@Transactional
+	//@Transactional
 	public List<Customer> getAllCustomers() {
 		return customerRepo.findAll();
 	}
 	
 	@Override
-	@Transactional
+	//@Transactional
 	public Optional<Customer> findByNameAndPassword(String name, String password) {
 		return customerRepo.findByNameAndPassword(name,password);
 	}
@@ -38,14 +37,16 @@ public class CustomerService implements CustomerInterfacemethods {
 	@Override
 	@Transactional
 	public void addNew(Customer customer) {
+		// add the new customer
 		customerRepo.save(customer);
+		// make a new shopping cart for the customer
 		ShoppingCart newShoppingCart = new ShoppingCart();
 		newShoppingCart.setCustomer(customer);
 		shoppingCartRepo.save(newShoppingCart);
 	}
 	
 	@Override
-	@Transactional
+	//@Transactional
 	public List<Customer> findByName(String name) {
 		return customerRepo.findByName(name);
 	}
