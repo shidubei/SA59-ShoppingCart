@@ -1,6 +1,7 @@
 package sg.nus.iss.shoppingCart.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,51 +22,19 @@ public class OrderService implements OrderInterfacemethods{
 	@Autowired
 	CustomerRepository customerRepo;
 	
+	 @Autowired
+	 private CustomerService customerService;
+	
 	//View Order History - retrieves all orders with a specific customer 
 	@Transactional
 	public List<Order> findOrdersByCustomer(Customer customer) {
 		return orderRepo.findByCustomer(customer);
 	}
-	
-	//View Order History with sort by Order date
-	@Override
-	@Transactional
-	public List<Order> findOrdersByCustomerSortedByDate(Customer customer) {
-		return orderRepo.findByCustomerOrderByOrderDate(customer); 
-	}	
-	
-	//Filter by status 
-	@Override
-	@Transactional
-	public List<Order> findOrdersByCustomerAndStatus(Customer customer, String status) {
-		return orderRepo.findByCustomerAndStatus(customer, status);
-	}
-	
-	//Sort by total amount
-	@Override
-	@Transactional
-	public List<Order> findOrdersByCustomerSortedByTotalAmount(Customer customer) {
-		return orderRepo.findByCustomerOrderByTotalAmountDesc(customer);
-	}
-	
 
-//	//Implement findOrder using JPA repository findAll
-//	@Override
-//	public List<Order> findAllOrder() {
-//		
-//		return orderRepository.findAll();
-//	}
-//
-//	//Implement findOrderById using JPA repository findById
-//	@Override
-//    public Optional<Order> findOrderById(int id) {
-//        return orderRepository.findById(id);
-//    }
-//
-//	@Override
-//	public void saveOrder(Order order) {
-//        orderRepository.save(order);		
-//	}
+	@Override
+	public Optional<Order> findOrderDetailsForCustomer(Customer customer, int orderId) {
+		return orderRepo.findByCustomerAndId(customer, orderId); 
+	}
 
 }
 /* Creator: Azril

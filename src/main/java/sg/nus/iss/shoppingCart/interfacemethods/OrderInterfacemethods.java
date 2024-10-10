@@ -1,6 +1,7 @@
 package sg.nus.iss.shoppingCart.interfacemethods;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.persistence.criteria.Order;
 import sg.nus.iss.shoppingCart.model.Customer;
@@ -16,16 +17,7 @@ public interface OrderInterfacemethods {
 	//View Order History - retrieves all orders with a specific customer 
 	public List<Order> findOrdersByCustomer(Customer customer); 
 	
-	//View Order History with sort by Order date
-	public List<Order> findOrdersByCustomerSortedByDate(Customer customer);
-	
-	//	Filter by status
-	public List<Order> findOrdersByCustomerAndStatus(Customer customer, String status);
-	
-	//	Sort by total amount
-	public List<Order> findOrdersByCustomerSortedByTotalAmount(Customer customer);
-
+	public Optional<Order> findOrderDetailsForCustomer (Customer customer, int id);
 }
-
 /* Creator: Azril
  * Date: 2024-10-10 */

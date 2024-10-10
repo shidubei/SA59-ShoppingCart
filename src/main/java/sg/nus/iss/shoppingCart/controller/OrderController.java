@@ -2,6 +2,7 @@ package sg.nus.iss.shoppingCart.controller;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.interfacemethods.OrderInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
@@ -49,20 +52,34 @@ public class OrderController {
 
 	//Simple greeting message
 	@GetMapping("/greeting" )
-	public String greetingOrder(Model model) {
+	public String greetingOrder(HttpSession session, Model model) {
+		
+	    // Retrieve customerId from session
+	     Integer customerId = (Integer) session.getAttribute("customerId");
 		System.out.println("This line is inside console for /greeting");
 		model.addAttribute("message", "Welcome to order page!"); 
+	    model.addAttribute("customerId", customerId);  // Use the passed customerId
 		return "/greeting-order";
 	}
 	
+	
 	@GetMapping("/vieworder/{customerId}")
-	public String getOrdersByCustomer(@PathVariable int customerId, Model model) {
+	public String getOrdersByCustomer(HttpSession session, Model model) {
+		
+	    Integer customerId = (Integer) session.getAttribute("customerId");
+	    // Fetch the customer and their orders using the customerId
 	    Customer customer = customerService.findCustomerById(customerId);
 	    if (customer == null) {
-	        model.addAttribute("message", "Customer not found.");
-	        return "vieworder-unsuccessful"; 
+	        model.addAttribute("message", "You need to log in to view your orders!");
+	        return "redirect:/login"; 
 	    }
-	    List<jakarta.persistence.criteria.Order> orders = orderService.findOrdersByCustomer(customer);
+	    
+	    if (customer == null) {
+	        model.addAttribute("message", "Customer not found.");
+	        return "redirect:/login";
+	    }
+	    
+	    List<Order> orders = orderService.findOrdersByCustomer(customer);
 	    if (orders.isEmpty()) {
 	        model.addAttribute("message", "No orders found for this customer.");
 	    } else {
@@ -72,20 +89,41 @@ public class OrderController {
 	    return "vieworder"; 
 	}
 	
-	
-	//Create ORDER from SHOPPINGCART ITEM that has been checked-out
-	@GetMapping("/create-order") 
-	public String createOrder(Model model) {
-		System.out.println("This line is from /create-order");
-		model.addAttribute("order", new Order());
-		return "create-order";
+	@GetMapping("/vieworderdetail/{orderId}")
+	public String getOrderDetailsByCustomer(@PathVariable("orderId") int orderId, HttpSession session, Model model) {
+	    Integer customerId = (Integer) session.getAttribute("customerId");
+	    Customer customer = customerService.findCustomerById(customerId);
+
+	    if (customerId == null) {
+	        model.addAttribute("message", "You need to log in to view order details!");
+	        return "redirect:/login";
+	    }
+	    
+	    // Fetch the order details for the specific customer and order
+	    Optional<Order> order = orderService.findOrderDetailsForCustomer(customer, orderId);
+
+	    // Check if the order is found and belongs to the customer
+	    if (order.isPresent()) {
+	        model.addAttribute("order", order.get());
+	        return "vieworderdetail";
+	    } else {
+	        return "redirect:/customer/order/vieworder";  // Redirect if order is not found
+	    }
 	}
-	@PostMapping("/save-order")
-	public String saveOrder(@ModelAttribute Order order) {
-		System.out.println("This line is from /save-order");
-		System.out.println("Order created: " + order.getId());
-		return "redirect:/create-order";
-	}
+//	
+//	//Create ORDER from SHOPPINGCART ITEM that has been checked-out
+//	@GetMapping("/create-order") 
+//	public String createOrder(Model model) {
+//		System.out.println("This line is from /create-order");
+//		model.addAttribute("order", new Order());
+//		return "create-order";
+//	}
+//	@PostMapping("/save-order")
+//	public String saveOrder(@ModelAttribute Order order) {
+//		System.out.println("This line is from /save-order");
+//		System.out.println("Order created: " + order.getId());
+//		return "redirect:/create-order";
+//	}
 }
 
 /* Creator: Azril

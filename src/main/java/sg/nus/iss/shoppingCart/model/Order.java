@@ -13,6 +13,21 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 @Entity
 @Table (name ="ordertable", schema = "shoppingcart")
 public class Order {
@@ -30,12 +45,12 @@ public class Order {
 	@Column (name = "totalAmount", length = 10) 
 	private double totalAmount; 
 	
-	@ManyToOne
+	@ManyToOne (cascade = CascadeType.PERSIST)
 	@JoinColumn (name = "customer_id")
 	private Customer customer;
 	
 	@OneToMany(mappedBy= "order")
-	private List<OrderDetails> orderDetails; 
+	private List<OrderDetails> orderDetails = new ArrayList<>(); 
 		
 	public Order() {}
 
@@ -88,6 +103,15 @@ public class Order {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
+	public List<OrderDetails> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetails> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
+
 
 	@Override
 	public String toString() {
