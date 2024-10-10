@@ -3,6 +3,7 @@ package sg.nus.iss.shoppingCart.interfacemethods;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpSession;
 import sg.nus.iss.shoppingCart.model.Customer;
 
 public interface CustomerInterfacemethods {

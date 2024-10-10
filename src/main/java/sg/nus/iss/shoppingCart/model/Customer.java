@@ -28,7 +28,6 @@ public class Customer {
 	private String email;
 	
 	@Column(name="contact_number")
-
 	private String contactNumber;
 	
 	@OneToMany(mappedBy="customer")
@@ -38,7 +37,6 @@ public class Customer {
 	private ShoppingCart shoppingCart;
 
 	public Customer() {}
-
 	// change:
 	// 1.Customer Argument don't need Id,because Id is auto_increment
 	public Customer(String name, String password, String email, String contactNumber) {
