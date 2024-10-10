@@ -16,11 +16,13 @@ import sg.nus.iss.shoppingCart.model.ShoppingCart;
 import sg.nus.iss.shoppingCart.model.ShoppingCartItem;
 import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.repository.OrderRepository;
+import sg.nus.iss.shoppingCart.repository.ShoppingCartItemRepository;
 
 @Service
 @Transactional
 public class ShoppingCartService implements ShoppingCartInterface{
-
+	@Autowired
+	private ShoppingCartItemRepository shoppingCartItemRepo;
 	@Autowired
 	private CustomerRepository customerRepo;
 
@@ -54,6 +56,27 @@ public class ShoppingCartService implements ShoppingCartInterface{
 	public void CheckOut(int id, ShoppingCart sc) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ShoppingCartItem> findAllShoppingCartItem() {
+		return List.of();
+	}
+
+	@Override
+	public List<ShoppingCartItem> findByProductID(int id) {
+		return List.of();
+	}
+
+	@Override
+	public ShoppingCartItem updateQuantity(ShoppingCartItem shoppingCartItem) {
+		return null;
+	}
+	@Override
+	public void deleteProduct(int id) {
+		ShoppingCartItem item = shoppingCartItemRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("ShoppingCartItem not found"));
+		shoppingCartItemRepo.delete(item);
 	}
 	
 	/*
