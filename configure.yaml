@@ -1,0 +1,9 @@
+//configure,yml
+spring:
+  thymeleaf:
+    prefix: classpath:/META-INF/resources/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    content-type: text/html
+    cache: false  # Set to false for development
