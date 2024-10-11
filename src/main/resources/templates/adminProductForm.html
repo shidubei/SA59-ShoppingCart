@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create/Update Product</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<!--<h1 th:text="${product.id != null} ? 'Update Product' : 'Add New Product'"></h1>-->
+
+<form th:action="@{/admin/products/update}"  method="post">
+	<div>
+	  <label for="name">Name:</label>
+	  <input type="text" id="name" name="product_name" required/>
+	</div>
+
+	<div>
+	  <label for="price">Price:</label>
+	  <input type="text" id="price" name="price" required/>
+	</div>
+
+	<div>
+	  <label for="category">Category:</label>
+	  <input type="text" id="category" name="category" required/>
+	</div>
+  <div>
+    <!--<button type="submit" th:text="${product.id != null} ? 'Update' : 'Add Product'"></button>-->
+	<button type="submit">Update</button>
+  </div>
+</form>
+  <div>
+    <a href="/admin/products">Cancel</a>
+  </div>
+
+</body>
+</html>

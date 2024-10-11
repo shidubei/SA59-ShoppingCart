@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create/Update Product</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<h1>Product List</h1>
+
+<!-- Add Product Button -->
+<a href="/admin/products/new">
+    <button>Add Product</button>
+</a>
+
+<!-- Display error message if there's a problem deleting a product -->
+<div th:if="${deleteError != null}">
+    <p th:text="${deleteError}" style="color: red;"></p>
+</div>
+
+<!-- Products Table -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.category}"></td>
+        <td>
+            <!-- Edit Button -->
+            <a th:href="@{/admin/products/update(productId=${product.id})}">
+                <button>Edit</button>
+            </a>
+
+            <!-- Delete Button
+            <form th:action="@{/admin/products/delete}" method="post" th:object="${product}" style="display:inline;">
+                <input type="hidden" th:field="*{id}"/>
+                <button type="submit">Delete</button>
+            </form>-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/">Back to Home</a>
+</body>
+</html>

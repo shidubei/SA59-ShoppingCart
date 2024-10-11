@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .header img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+        }
+        .header .info {
+            font-size: 18px;
+        }
+        .header .info h1 {
+            margin: 0;
+            color: #333;
+        }
+        .header .info p {
+            margin: 5px 0;
+            color: #777;
+        }
+        .section-title {
+            font-size: 22px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        .section-content {
+            margin-bottom: 20px;
+        }
+        .section-content p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #333;
+        }
+        .contact-info {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="profile_picture.png" alt="Admin Profile">
+        <div class="info">
+            <h1 th:text="${admin.name}">Admin Name</h1>
+            <p>ID: <span class="highlight" th:text="${admin.id}">1</span></p>
+            <p>Email: <span class="highlight" th:text="${admin.email}">admin@example.com</span></p>
+            <p class="contact-info">Phone: <span class="highlight" th:text="${admin.contactNumber}">+86 1234567890</span></p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Personal Details</h2>
+        <div class="section-content">
+            <p><span class="highlight">Name:</span> <span th:text="${admin.name}">Admin Name</span></p>
+            <p><span class="highlight">Email:</span> <span th:text="${admin.email}">admin@example.com</span></p>
+            <p><span class="highlight">Phone Number:</span> <span th:text="${admin.contactNumber}">+86 1234567890</span></p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Biography</h2>
+        <div class="section-content">
+            <p>Admin is a dedicated professional with a passion for management and technology...</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
