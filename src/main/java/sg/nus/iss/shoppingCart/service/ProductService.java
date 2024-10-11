@@ -18,5 +18,8 @@ public class ProductService implements ProductInterfacemethods{
 	public List<Product> listProducts() {
 		return productRepo.findAllProducts();
 	}
-
+	@Override
+	public Product getProduct(int id) {
+		return productRepo.findByProductId(id);
+	}
 }

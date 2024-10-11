@@ -1,5 +1,6 @@
 package sg.nus.iss.shoppingCart.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class Order {
 	@Column(name="order_date")
 	private LocalDate orderDate;
 	
+	@Column (name = "status", length = 10)
+	private String status; 
+	
+	@Column (name = "total_amount", precision=10,scale=2) 
+	private BigDecimal totalAmount; 
+	
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;
@@ -41,10 +48,28 @@ public class Order {
 	
 	public Order() {}
 	
-	public Order(int id, LocalDate orderDate, Customer customer) {
+	public Order(int id, LocalDate orderDate, Customer customer,String status,BigDecimal totalAmount) {
 		this.id = id;
 		this.orderDate = orderDate;
+		this.status = status;
+		this.totalAmount = totalAmount;
 		this.customer = customer;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 	public int getId() {

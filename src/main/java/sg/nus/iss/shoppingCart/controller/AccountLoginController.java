@@ -163,12 +163,12 @@ public class AccountLoginController {
 			return "create-account";
 		}
 		// if successful, create a new customer account
-		Customer newCustomer = new Customer();
-		newCustomer.setName(signUp.getUsername());
-		newCustomer.setEmail(signUp.getEmail());
-		newCustomer.setContactNumber(signUp.getContactNumber());
-		newCustomer.setPassword(signUp.getPassword1());
-		customerService.addNew(newCustomer);
+//		Customer newCustomer = new Customer();
+//		newCustomer.setName(signUp.getUsername());
+//		newCustomer.setEmail(signUp.getEmail());
+//		newCustomer.setContactNumber(signUp.getContactNumber());
+//		newCustomer.setPassword(signUp.getPassword1());
+		customerService.addNew(signUp);
 		// redirect back to front page
 		return "redirect:/logstat";
 	}

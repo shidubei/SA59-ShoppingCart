@@ -1,11 +1,14 @@
 package sg.nus.iss.shoppingCart.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import sg.nus.iss.shoppingCart.interfacemethods.OrderInterfacemethods;
+import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.Order;
 import sg.nus.iss.shoppingCart.repository.OrderRepository;
 
@@ -16,13 +19,17 @@ import sg.nus.iss.shoppingCart.repository.OrderRepository;
 @Service
 public class OrderService implements OrderInterfacemethods{
 	@Autowired
-	private OrderRepository orderRepository;
+	private OrderRepository orderRepo;
 	
-	// logic problem: this method will return all data in Order table,
-	// but in fact, we only need current customer Order,so need modify.
+	//View Order History - retrieves all orders with a specific customer 
 	@Override
-	public List<Order> getAllOrders() {
-		return orderRepository.findAll();
+	@Transactional
+	public List<Order> findOrdersByCustomer(Customer customer) {
+		return orderRepo.findByCustomer(customer);
 	}
 
+	@Override
+	public Optional<Order> findOrderDetailsForCustomer(Customer customer, int orderId) {
+		return orderRepo.findByCustomerAndId(customer, orderId); 
+	}
 }
