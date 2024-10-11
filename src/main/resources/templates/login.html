@@ -4,7 +4,7 @@
 	<title>Login to Your Account</title>
 </head>
 <body>
-	<h2 style="text-align: center"> Sign Up </h2>
+	<h2 style="text-align: center">Log In</h2>
 	<form action="#" th:action="@{/login}" method="post">
 	<table style="width:50%; margin-left: auto; margin-right: auto;">
 		<!--Will show this error if the user keyed in the wrong username or password-->
@@ -27,7 +27,12 @@
 		type="reset" value="Reset" />
 		</td>
 		</tr>
-		
+		<tr>
+			<td>No Account? <a th:href="@{/signup}">Sign Up</a> here.</td>
+		</tr>
+		<tr>
+			<td><a th:href="@{/logstat}">Go Back</a></td>
+		</tr>
 	</table>
 	</form>
 </body>
