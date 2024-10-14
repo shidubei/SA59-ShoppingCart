@@ -3,6 +3,8 @@ package sg.nus.iss.shoppingCart.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 // This is for testing the interface change between login and logout
 
@@ -12,24 +14,27 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 
 import sg.nus.iss.shoppingCart.validation.SignUpValidator;
-import sg.nus.iss.shoppingCart.model.SignUp;
 import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
+import sg.nus.iss.shoppingCart.model.dto.SignUp;
 import sg.nus.iss.shoppingCart.service.CustomerService;
-
-@Controller
+//change Controller to RestController
+@RestController
+@CrossOrigin(origins="http://localhost:3000")
 public class AccountLoginController {
 
 	// signUpValidator is for validating the following on the sign-up sheet:
@@ -49,7 +54,7 @@ public class AccountLoginController {
 		this.customerService=customerService;
 	}
 	
-	@InitBinder
+	@InitBinder("SignUp")
 	private void initSignUpBinder(WebDataBinder binder) {
 		// Other binding
 		binder.addValidators(signUpValidator);
@@ -57,7 +62,7 @@ public class AccountLoginController {
 	
 	// Go to login screen
 	@GetMapping("/login")
-	public String loginPage(Model model,HttpSession sessionObj) {
+	public ResponseEntity<Customer> loginPage(Model model,HttpSession sessionObj) {
 		// If the 'isLoggedIn' session object is not made assume not logged in
 		if (sessionObj.getAttribute("isLoggedIn")==null) {
 			sessionObj.setAttribute("isLoggedIn",false);
@@ -74,21 +79,22 @@ public class AccountLoginController {
 		// to appear.
 		model.addAttribute("showWrongPasswordError",false);
 		// uses 'login.html'
-		return "login";
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	// Change it to RestAPI Post Request
 	// postmapping on login
 	@PostMapping("/login")
-	public String loginToAccount(Model model,
+	public ResponseEntity<Customer> loginToAccount(Model model,
 									HttpSession sessionObj,
-									@RequestParam("username") String loginUsername,
-									@RequestParam("password") String loginPassword) {
-		System.out.println("Username: "+loginUsername);
-		System.out.println("Password: "+loginPassword);
+									@RequestBody Customer customer) {
+//		System.out.println("Username: "+loginUsername);
+//		System.out.println("Password: "+loginPassword);
 		
 		// validate that username and password is correct
 		// (there exists a user with the same name and password combo)
-		Optional<Customer> foundCustomer = customerService.findByNameAndPassword(loginUsername, loginPassword);
+		// change, use RequestBody's customer name and password
+		Optional<Customer> foundCustomer = customerService.findByNameAndPassword(customer.getName(), customer.getPassword());
 		if (foundCustomer.isPresent()) {
 			// if a valid customer is found
 			Customer gotCustomer = foundCustomer.get();
@@ -108,22 +114,24 @@ public class AccountLoginController {
 			sessionObj.setAttribute("customer", gotCustomer);
 			sessionObj.setAttribute("customerId", gotCustomer.getId());
 			sessionObj.setAttribute("customerName", gotCustomer.getName());
-			System.out.println("Current isLoggedIn status: "+model.getAttribute("isLoggedIn"));
+			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("isLoggedIn"));
+			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("customerId"));
+			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("customer"));
 			// Redirect to logstat (the 'main' page)
-			return "redirect:/logstat";
+			return new ResponseEntity<Customer>(gotCustomer,HttpStatus.OK);
 		} else {
 			// login invalid; return the user to the login page and ask them to re-type
-			model.addAttribute("username",loginUsername);
+			model.addAttribute("username",customer.getName());
 			model.addAttribute("password","");
 			model.addAttribute("showWrongPasswordError",true);
 			// Redirect to login page
-			return "login";
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
 	// signup is the page for creating new accounts
 	@GetMapping("/signup")
-	public String signUpPage(Model model, HttpSession sessionObj) {
+	public ResponseEntity<?> signUpPage(Model model, HttpSession sessionObj) {
 		// If the 'isLoggedIn' session object is not made assume not logged in
 		if (sessionObj.getAttribute("isLoggedIn")==null) {
 			sessionObj.setAttribute("isLoggedIn",false);
@@ -135,64 +143,61 @@ public class AccountLoginController {
 		// create a new model for SignUp data
 		model.addAttribute("signup",new SignUp());
 		// uses 'create-account.html'
-		return "create-account";
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	// After clicking the create new account on the signup page
+	/*
+	 * */
 	@PostMapping("/signup")
-	public String createNewCustomer(@Valid @ModelAttribute SignUp signUp,
+	public ResponseEntity<?> createNewCustomer(@Valid @RequestBody SignUp signUp,
 										BindingResult bindingResult,
 										Model model) {
-		// Print sign up form details for personal validation
 		System.out.println("Username: "+signUp.getUsername());
 		System.out.println("email: "+signUp.getEmail());
 		System.out.println("contactNumber: "+signUp.getContactNumber());
 		System.out.println("password1: "+signUp.getPassword1());
 		System.out.println("password2: "+signUp.getPassword2());
-		// If there are errors (ex. empty email, password not strong enough)
-		// redirect back to sign up page
+
 		if (bindingResult.hasErrors()) {
 			System.out.println("Errors were found:");
 			System.out.println("Errors found: " + bindingResult.getErrorCount());
-			// Question: This could previously be placed after the bindingResult check outside in workshops.
-			// However here I have to re-add.
 			model.addAttribute("signup",signUp); // keep the form data
-			// Question: In workshops re-adding bindingResult was unnecessary. However here it is necessary.
 			model.addAttribute("org.springframework.validation.BindingResult.signup", bindingResult); // Add the binding result
-			// uses 'create-account.html'
-			return "create-account";
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		// if successful, create a new customer account
-//		Customer newCustomer = new Customer();
-//		newCustomer.setName(signUp.getUsername());
-//		newCustomer.setEmail(signUp.getEmail());
-//		newCustomer.setContactNumber(signUp.getContactNumber());
-//		newCustomer.setPassword(signUp.getPassword1());
+		
+		if(!signUp.getPassword1().equals(signUp.getPassword2())) {
+			bindingResult.rejectValue("password2", "error.password2","password2 do not match");
+			model.addAttribute("signup",signUp); // keep the form data
+			model.addAttribute("org.springframework.validation.BindingResult.signup", bindingResult); // Add the binding result
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		customerService.addNew(signUp);
-		// redirect back to front page
-		return "redirect:/logstat";
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	// logstat is just a page for seeing if you are logged in or out
-	@RequestMapping("/logstat")
-	public String markHome(HttpSession sessionObj) {
+	@GetMapping("/customer")
+	public ResponseEntity<Customer> customerHome(HttpSession sessionObj) {
 		System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("isLoggedIn"));
 		// create isLoggedIn value if not already created
 		if (sessionObj.getAttribute("isLoggedIn")==null) {
 			System.out.println("Create New");
 			sessionObj.setAttribute("isLoggedIn",false);
 		}
+		System.out.println(sessionObj.getAttribute("customer"));
+		Customer customer = (Customer)sessionObj.getAttribute("customer");
 		System.out.println("Current isLoggedIn status: "+(boolean) sessionObj.getAttribute("isLoggedIn"));
 		// uses 'logstat.html'
-		return "logstat";
+		return new ResponseEntity<>(customer,HttpStatus.OK);
 	}
 	
 	// for logging out
-	@RequestMapping("/logout")
-	public String logoutOfAccount(HttpSession sessionObj) {
+	@GetMapping("/logout")
+	public ResponseEntity<?> logoutOfAccount(HttpSession sessionObj) {
 		// clear the current http session
 		sessionObj.invalidate();
 		// redirect to front page
-		return "redirect:/logstat";
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

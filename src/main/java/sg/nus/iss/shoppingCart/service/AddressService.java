@@ -37,7 +37,10 @@ public class AddressService implements AddressInterfacemethods {
 	public void addNewAddress(Address newAddress) {
 		addressRepo.save(newAddress);
 	}
-
+	@Override
+	public Address findById(int id) {
+		return addressRepo.findById(id);
+	}
 	@Override
 	@Transactional
 	public void updateAddress(int id,String pre_address) {

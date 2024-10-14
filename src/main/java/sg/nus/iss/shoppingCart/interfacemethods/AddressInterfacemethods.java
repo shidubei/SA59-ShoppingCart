@@ -44,5 +44,12 @@ public interface AddressInterfacemethods {
 	 * Explain: This method will be used when customer want to delete their pre_address
 	 */
 	public void deleteAddress(int id);
+
+	/**
+	 * Creator:
+	 * Date:11 Oct 2024
+	 * Explain:
+	 */
+	Address findById(int id);
 	
 }

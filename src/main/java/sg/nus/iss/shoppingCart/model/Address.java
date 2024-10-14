@@ -1,5 +1,7 @@
 package sg.nus.iss.shoppingCart.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class Address{
 	@Column(name="pre_address")
 	private String pre_address;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;

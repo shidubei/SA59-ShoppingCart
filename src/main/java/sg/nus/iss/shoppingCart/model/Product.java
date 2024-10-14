@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +37,8 @@ public class Product {
 	@Column(name="category")
 	private String category;
 	
+	// use JsonIgnore because turn to Json will happen stackoverflow;
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ShoppingCartItem> shoppingCartItems;
 	
@@ -84,6 +88,7 @@ public class Product {
 	public void setShoppingCartItems(List<ShoppingCartItem> shoppingCartItems) {
 		this.shoppingCartItems = shoppingCartItems;
 	}
+	
 	
 	
 }

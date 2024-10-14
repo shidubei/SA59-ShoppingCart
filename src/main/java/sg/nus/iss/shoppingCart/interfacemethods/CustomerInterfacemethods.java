@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import jakarta.servlet.http.HttpSession;
 import sg.nus.iss.shoppingCart.model.Customer;
-import sg.nus.iss.shoppingCart.model.SignUp;
 import sg.nus.iss.shoppingCart.model.UpdateDetails;
+import sg.nus.iss.shoppingCart.model.dto.SignUp;
 
 public interface CustomerInterfacemethods {
 

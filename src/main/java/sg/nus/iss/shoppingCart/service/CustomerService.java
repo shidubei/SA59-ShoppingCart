@@ -11,8 +11,8 @@ import jakarta.transaction.Transactional;
 import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.ShoppingCart;
-import sg.nus.iss.shoppingCart.model.SignUp;
 import sg.nus.iss.shoppingCart.model.UpdateDetails;
+import sg.nus.iss.shoppingCart.model.dto.SignUp;
 import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.repository.ShoppingCartRepository;
 
@@ -56,9 +56,9 @@ public class CustomerService implements CustomerInterfacemethods {
 		// update contact number
 		currentCustomer.setContactNumber(updateDetails.getContactNumber());
 		// update password if it is changed
-		if (!updateDetails.getPassword1().equals("")) {
-			currentCustomer.setPassword(updateDetails.getPassword1());
-		}
+//		if (!updateDetails.getPassword1().equals("")) {
+//			currentCustomer.setPassword(updateDetails.getPassword1());
+//		}
 		customerRepo.save(currentCustomer);
 	}
 	

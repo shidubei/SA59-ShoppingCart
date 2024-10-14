@@ -75,11 +75,11 @@ public class ShoppingCartService implements ShoppingCartInterface{
 	public ShoppingCartItem updateQuantity(ShoppingCartItem shoppingCartItem) {
 		return null;
 	}
+	
+	@Transactional
 	@Override
-	public void deleteProduct(int id) {
-		ShoppingCartItem item = shoppingCartItemRepo.findById(id)
-				.orElseThrow(() -> new RuntimeException("ShoppingCartItem not found"));
-		shoppingCartItemRepo.delete(item);
+	public void deleteProduct(int product_id,int id) {
+		shoppingCartItemRepo.deleteByCategory(product_id, id);;
 	}
 	@Override
 	public ShoppingCartItem checkIfExistInShoppingCart(int product_id,ShoppingCart sc) {
@@ -102,6 +102,10 @@ public class ShoppingCartService implements ShoppingCartInterface{
 		}else {
 			throw new RuntimeException("ShoppingCartItem not found for id");
 		}
+	}
+	@Override
+	public int countItem(int id) {
+		return shoppingCartItemRepo.countItem(id);
 	}
 	/*
 	@Override

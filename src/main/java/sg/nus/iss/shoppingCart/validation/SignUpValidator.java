@@ -4,7 +4,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import sg.nus.iss.shoppingCart.model.Customer;
-import sg.nus.iss.shoppingCart.model.SignUp;
+import sg.nus.iss.shoppingCart.model.dto.SignUp;
 import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.service.CustomerService;
 

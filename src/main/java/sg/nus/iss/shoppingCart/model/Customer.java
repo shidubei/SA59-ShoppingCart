@@ -2,6 +2,8 @@ package sg.nus.iss.shoppingCart.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,11 +32,14 @@ public class Customer {
 	@Column(name="contact_number")
 	private String contactNumber;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="customer")
 	private List<Order> orders;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy="customer")
 	private ShoppingCart shoppingCart;
+	
 
 	public Customer() {}
 	// change:
@@ -94,9 +99,8 @@ public class Customer {
 
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
-	}
-
-
+	}	
+	
 	public List<Order> getOrders() {
 		return orders;
 	}
@@ -115,7 +119,6 @@ public class Customer {
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
 	}
-	
 	
 	
 }

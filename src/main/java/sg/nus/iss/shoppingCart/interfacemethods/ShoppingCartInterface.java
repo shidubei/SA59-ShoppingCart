@@ -21,7 +21,7 @@ public interface ShoppingCartInterface {
 
 	ShoppingCartItem updateQuantity(ShoppingCartItem shoppingCartItem);
 
-	public void deleteProduct(int id);
+	public void deleteProduct(int product_id,int id);
 
 	/**
 	 * Creator:
@@ -43,4 +43,11 @@ public interface ShoppingCartInterface {
 	 * Explain:
 	 */
 	void updateShoppingCartItemQty(int id, int add_qty);
+
+	/**
+	 * Creator:
+	 * Date:14 Oct 2024
+	 * Explain:
+	 */
+	int countItem(int id);
 }

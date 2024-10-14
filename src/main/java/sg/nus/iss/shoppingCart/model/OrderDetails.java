@@ -1,5 +1,6 @@
 package sg.nus.iss.shoppingCart.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -23,6 +24,9 @@ public class OrderDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	
+	@Column(name="units",precision=10,scale=2)
+	private BigDecimal units;
 	
 	@ManyToOne
 	@JoinColumn(name="order_id")
@@ -64,7 +68,14 @@ public class OrderDetails {
 		this.product = product;
 	}
 	
-	
+	public BigDecimal getUnits() {
+		return units;
+	}
+
+	public void setUnits(BigDecimal units) {
+		this.units = units;
+	}
+
 	
 	
 }

@@ -10,6 +10,9 @@ import jakarta.transaction.Transactional;
 import sg.nus.iss.shoppingCart.interfacemethods.OrderInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.Order;
+import sg.nus.iss.shoppingCart.model.OrderDetails;
+import sg.nus.iss.shoppingCart.model.Product;
+import sg.nus.iss.shoppingCart.repository.OrderDetailsRepository;
 import sg.nus.iss.shoppingCart.repository.OrderRepository;
 
 // change: 
@@ -20,6 +23,8 @@ import sg.nus.iss.shoppingCart.repository.OrderRepository;
 public class OrderService implements OrderInterfacemethods{
 	@Autowired
 	private OrderRepository orderRepo;
+	@Autowired
+	private OrderDetailsRepository orderDetailRepo;
 	
 	//View Order History - retrieves all orders with a specific customer 
 	@Override
@@ -32,4 +37,19 @@ public class OrderService implements OrderInterfacemethods{
 	public Optional<Order> findOrderDetailsForCustomer(Customer customer, int orderId) {
 		return orderRepo.findByCustomerAndId(customer, orderId); 
 	}
+	
+	@Override
+	public void CreateOrder(Order order,OrderDetails orderDetails) {
+		orderRepo.save(order);
+		orderDetailRepo.save(orderDetails);
+	}
+	@Override
+	public int getOrderItemCount(int id) {
+		return orderDetailRepo.countItem(id);
+	}
+	@Override
+	public List<Product> getProductsInOrder(int id){
+		return orderDetailRepo.findProductsByOrderId(id);
+	}
+	
 }

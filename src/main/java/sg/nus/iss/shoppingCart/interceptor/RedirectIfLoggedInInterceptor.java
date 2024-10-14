@@ -25,7 +25,7 @@ public class RedirectIfLoggedInInterceptor implements HandlerInterceptor {
 
 		boolean isLoggedIn = sessionAttr !=null && (Boolean) sessionAttr;
 		if (isLoggedIn == true) {
-			response.sendRedirect("/logstat");
+			response.sendRedirect("/customer");
 			return false;
 		}
 		return true;

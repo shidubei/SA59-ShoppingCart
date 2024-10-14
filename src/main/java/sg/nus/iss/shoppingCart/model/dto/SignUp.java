@@ -1,4 +1,4 @@
-package sg.nus.iss.shoppingCart.model;
+package sg.nus.iss.shoppingCart.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -20,8 +20,11 @@ public class SignUp {
 			message="Either leave Contact Number blank or input a proper contact number (at least 8 digits).")
 	public String contactNumber;
 	
+	@NotBlank(message = "Password is required")
+	@Size(min = 8, message = "Password must be at least 8 characters long")
 	public String password1;
 	
+	@NotBlank(message = "Confirm password is required")
 	public String password2;
 
 	public String getEmail() {
