@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-
+import {Link} from 'react-router-dom'
 
 export default function Login(){
     const [formData, setFormData] = useState({
@@ -29,6 +29,7 @@ export default function Login(){
         try{
            const response = await axios.post("http://localhost:8080/login",formData,{withCredentials:true});
            if(response.status === 200){
+               //TO DO: set isLoggedIn == true
             navigate("/home");
            } 
         }catch(error){
@@ -46,7 +47,7 @@ export default function Login(){
     };
 
     return (
-        <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh', backgroundColor: '#1976d2'}}>
+        <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh', backgroundColor: '#ededed'}}>
         <Card sx={{ maxWidth: 400, padding: 2 }}>
             <Typography variant="h5" component="div" gutterBottom align="center">
             Login
@@ -80,6 +81,11 @@ export default function Login(){
                 </Button>
                 </CardActions>
             </form>
+            <Typography align="center" sx={{ marginTop: 1 }}>
+                <Link to="/signup" style={{ color: '#1976d2' }}>
+                <u>Don't have an account? Register here</u>
+                </Link>
+            </Typography>
             </CardContent>
         </Card>
         </Grid>
