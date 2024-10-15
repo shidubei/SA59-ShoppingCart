@@ -70,7 +70,6 @@ export default function ShoppingCart() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const userData = {
-    shoppingCartItems: 3,
     addresses:address
   };
 
