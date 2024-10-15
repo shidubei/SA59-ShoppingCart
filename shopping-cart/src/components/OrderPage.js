@@ -160,13 +160,13 @@ export default function OrderPage() {
   useEffect(()=>{const getOrder = async ()=>{
       const response = await axios.get("http://localhost:8080/customer/order/vieworder",{withCredentials:true});
       console.log(response.data);
-      setRows(response.data);
+      const reverseData = response.data.reverse();
+      console.log(reverseData.data);
+      setRows(reverseData.data); //shows the most recent data
     };getOrder()},
+
     []);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const userData = {
-    shoppingCartItems: 3,
-  };
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
@@ -182,7 +182,6 @@ export default function OrderPage() {
 
   return (
     <div>
-      <Appbar isLoggedIn={isLoggedIn} userData={userData} />
       <Grid container justifyContent="center" alignItems="flex-start" spacing={2} style={{ minHeight: '100vh', backgroundColor: '#ededed' }}>
         <Card sx={{ padding: 2, marginTop: '32px', marginBottom: '32px', width: '90%' }}>
           <CardContent>
