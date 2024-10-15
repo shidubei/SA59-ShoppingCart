@@ -43,6 +43,8 @@ public class UpdateDetailsValidator implements Validator {
 		List<Customer> sameUserName = customerService.findByName(username);
 		if (currentCustomer.getName().equals(username)) {
 			// if username is not going to change this part is clear
+		} else if (username.toLowerCase().equals("admin")) {
+			errors.rejectValue("username", "error.noadmin","'Admin' and other variations is not a valid username.");
 		} else if (sameUserName.size() >= 1) {
 			errors.rejectValue("username","error.usedusername",
 					"This username is already in use. Please use a different username.");
