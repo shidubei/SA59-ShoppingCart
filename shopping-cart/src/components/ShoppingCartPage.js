@@ -155,7 +155,14 @@ export default function ShoppingCart() {
                     {rows.map((row, index) => (
                       <TableRow key={row.name}>
                         <TableCell component="th" scope="row">
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
+                          <img 
+                            src={'/media/product1.png'} 
+                            alt={row.name} 
+                            style={{ width: 50, height: 50, objectFit: 'cover', marginRight: 10 }}
+                          />
                           {row.name}
+                          </div>
                         </TableCell>
                         <TableCell align="right">{row.price.toFixed(2)}</TableCell>
                         <TableCell align="right">
