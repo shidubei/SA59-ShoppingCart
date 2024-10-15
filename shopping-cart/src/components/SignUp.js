@@ -34,7 +34,7 @@ export default function SignUp(){
     };
     
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{backgroundColor: '#1976d2'}}>
+    <Grid container justifyContent="center" alignItems="center" style={{minHeight:'100vh', backgroundColor: '#1976d2'}}>
       <Card sx={{ maxWidth: 400, padding: 2, marginTop:'64px', marginBottom:'64px' }}>
         <Typography variant="h5" component="div" gutterBottom align="center">
           Sign up
