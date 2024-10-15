@@ -19,7 +19,7 @@ export default function Product({ product }) {
     }
 
     return (
-      <Card sx={{ maxWidth: 200 }}>
+      <Card sx={{ width: 200, height: 350 }}>
         <CardMedia
           component="img"
           alt={product.name}
