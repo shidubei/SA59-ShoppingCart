@@ -62,7 +62,6 @@ export default function ProductPage() {
   
     return (
       <div>
-        <Appbar isLoggedIn={isLoggedIn} userData={userData}/>
         <Grid 
           container 
           spacing={3}
