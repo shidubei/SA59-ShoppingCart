@@ -13,9 +13,7 @@ import axios from 'axios';
 
 export default function ProductPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(true); 
-    const userData = {
-      shoppingCartItems: 3, 
-    };
+
     const [products,setProducts] = useState([]);
 
     const [error,setError] = useState('');
