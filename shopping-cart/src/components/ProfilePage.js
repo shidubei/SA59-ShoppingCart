@@ -138,7 +138,7 @@ export default function Profile() {
 
   return (
     <div>
-      <Grid container justifyContent="center" alignItems="flex-start" spacing={1} style={{ backgroundColor: '#ededed'}}>
+      <Grid container justifyContent="center" alignItems="flex-start" spacing={1} style={{ minHeight:'100vh', backgroundColor: '#ededed'}}>
 
         {/* Profile Card */}
         <Card sx={{ padding: 2, marginTop: '32px', width: '80%', marginBottom: '32px'}}>
