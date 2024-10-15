@@ -138,7 +138,7 @@ export default function ShoppingCart() {
   return (
     <div>
       <Appbar isLoggedIn={isLoggedIn} userData={userData} />
-      <Grid container justifyContent="center" alignItems="flex-start" spacing={2} style={{ backgroundColor: '#ededed'}}>
+      <Grid container justifyContent="center" alignItems="flex-start" spacing={2} style={{ minHeight:'100vh', backgroundColor: '#ededed'}}>
         <Grid item xs={8}>
           <Card sx={{ padding: 2, marginTop: '32px', marginBottom: '32px' }}>
             <CardContent>
