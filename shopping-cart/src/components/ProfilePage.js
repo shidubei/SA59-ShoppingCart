@@ -138,7 +138,6 @@ export default function Profile() {
 
   return (
     <div>
-      <Appbar isLoggedIn={isLoggedIn} userData={userData} />
       <Grid container justifyContent="center" alignItems="flex-start" spacing={1} style={{ backgroundColor: '#ededed'}}>
 
         {/* Profile Card */}
