@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import {useState} from 'react'
+
 export default function Product({ product }) {
   const [error,setError] = useState('');
     const handleClick = async () =>{

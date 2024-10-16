@@ -1,23 +1,20 @@
 package sg.nus.iss.shoppingCart.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
@@ -47,29 +44,45 @@ public class AddressController {
 	 * Explain: Handle url /address and list Address
 	 */
 	@GetMapping("/address")
-	public ResponseEntity<List<Address>> listAddress(HttpSession sessionObj,Model model) {
-		List<Address> addressList = addressService.listAddressByCutomer((int)sessionObj.getAttribute("customerId"));
-		model.addAttribute("addresses",addressList);
-		addressList.forEach(address->System.out.println(address));
-		return new ResponseEntity<>(addressList,HttpStatus.OK);
-	}
-	
-	@GetMapping("/address/update")
-	public ResponseEntity<?> updateAddressPage(HttpSession session, @RequestParam int id) {
-		if(addressService.findById(id)!=null) {
-			session.setAttribute("updateAddressId", id);
-			return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Object> listAddress(HttpSession sessionObj,Model model) {
+		Integer customerId = (Integer)sessionObj.getAttribute("customerId");
+		if(customerId!=null) {
+			int id  = customerId;
+			List<Address> addressList = addressService.listAddressByCutomer(id);
+			model.addAttribute("addresses",addressList);
+			addressList.forEach(address->System.out.println(address));
+			return new ResponseEntity<>(addressList,HttpStatus.OK);
 		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			Map<String,String> errorResponse = new HashMap<>();
+			errorResponse.put("ERROR","Can't get customerId");
+			return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
 		}
 	}
+	
+//	// when 
+//	@GetMapping("/address/update")
+//	public ResponseEntity<?> updateAddressPage(HttpSession session, @RequestParam int id) {
+//		if(addressService.findById(id)!=null) {
+//			session.setAttribute("updateAddressId", id);
+//			return new ResponseEntity<>(HttpStatus.OK);
+//		}else {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//	}
 	// This is to update Address
 	@PutMapping("/address/update")
-	public ResponseEntity<?> updateAddress(HttpSession session,
-			@RequestBody Map<String,String> requestBody) {
-		String updateAddress = requestBody.get("address");
-		addressService.updateAddress((int)session.getAttribute("updateAddressId"),updateAddress);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Object> updateAddress(HttpSession session,
+			@RequestBody Map<String,Object> requestBody) {
+		String updateAddress = (String)requestBody.get("address");
+		Integer updateAddressId = (Integer)requestBody.get("id");
+		if(updateAddress == null || updateAddressId == null) {
+			Map<String,String> errorResponse = new HashMap<>();
+			errorResponse.put("ERROR","Request Info Can Not Get");
+			return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
+		}else {
+			addressService.updateAddress(updateAddressId, updateAddress);
+			return new ResponseEntity<>(null,HttpStatus.OK);
+		}
 	}
 	
 	/*
@@ -87,17 +100,21 @@ public class AddressController {
 	 * Explain: Handle url /address/add to post the address
 	 */
 	@PostMapping("/address/add")
-	public ResponseEntity<Address> addAddress(HttpSession sessionObj, @RequestBody Map<String,String> requestBody) {
+	public ResponseEntity<Object> addAddress(HttpSession sessionObj, @RequestBody Map<String,String> requestBody) {
 		Customer customer = (Customer)sessionObj.getAttribute("customer");
-		System.out.println(customer);
+
 		if(customer==null) {
-			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+			Map<String,String> errorResponse = new HashMap<>();
+			errorResponse.put("ERROR","Customer Info Can Not Get");
+			return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+		}else {
+			Address newAddress = new Address();
+			newAddress.setCustomer(customer);
+			newAddress.setPre_address(requestBody.get("address"));
+			addressService.addNewAddress(newAddress);
+			return new ResponseEntity<>(newAddress,HttpStatus.OK);
 		}
-		Address newAddress = new Address();
-		newAddress.setCustomer(customer);
-		newAddress.setPre_address(requestBody.get("address"));
-		addressService.addNewAddress(newAddress);
-		return new ResponseEntity<>(newAddress,HttpStatus.OK);
+
 	}
 	
 	@DeleteMapping("/address/delete")

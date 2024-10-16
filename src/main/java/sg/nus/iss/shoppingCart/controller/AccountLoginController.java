@@ -1,5 +1,7 @@
 package sg.nus.iss.shoppingCart.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +56,7 @@ public class AccountLoginController {
 		this.customerService=customerService;
 	}
 	
-	@InitBinder("SignUp")
+	@InitBinder("signUp")
 	private void initSignUpBinder(WebDataBinder binder) {
 		// Other binding
 		binder.addValidators(signUpValidator);
@@ -85,7 +87,7 @@ public class AccountLoginController {
 	// Change it to RestAPI Post Request
 	// postmapping on login
 	@PostMapping("/login")
-	public ResponseEntity<Customer> loginToAccount(Model model,
+	public ResponseEntity<Object> loginToAccount(Model model,
 									HttpSession sessionObj,
 									@RequestBody Customer customer) {
 //		System.out.println("Username: "+loginUsername);
@@ -96,6 +98,7 @@ public class AccountLoginController {
 		// change, use RequestBody's customer name and password
 		Optional<Customer> foundCustomer = customerService.findByNameAndPassword(customer.getName(), customer.getPassword());
 		if (foundCustomer.isPresent()) {
+		
 			// if a valid customer is found
 			Customer gotCustomer = foundCustomer.get();
 			System.out.println(gotCustomer.getName());
@@ -106,11 +109,17 @@ public class AccountLoginController {
 			model.addAttribute("showWrongPasswordError",false);
 			// isLoggedIn is a boolean to indicate if the current HttpSession is logged in
 			// Refer to this value for pages that require logins to access
-			sessionObj.setAttribute("isLoggedIn",true);
+			
 			// HttpSession to save the customerId and name to reference
 			// Refer to this value for pages that require logins to access
 			// change:
 			// 1.add customer attribute
+			if(customer.getName().equals("admin")) {
+				Map<String,Boolean> response = new HashMap<>();
+				response.put("isAdmin",true);
+				return new ResponseEntity<>(response,HttpStatus.OK);
+			}
+			sessionObj.setAttribute("isLoggedIn",true);
 			sessionObj.setAttribute("customer", gotCustomer);
 			sessionObj.setAttribute("customerId", gotCustomer.getId());
 			sessionObj.setAttribute("customerName", gotCustomer.getName());
@@ -118,14 +127,16 @@ public class AccountLoginController {
 			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("customerId"));
 			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("customer"));
 			// Redirect to logstat (the 'main' page)
-			return new ResponseEntity<Customer>(gotCustomer,HttpStatus.OK);
+			return new ResponseEntity<>(gotCustomer,HttpStatus.OK);
 		} else {
 			// login invalid; return the user to the login page and ask them to re-type
 			model.addAttribute("username",customer.getName());
 			model.addAttribute("password","");
 			model.addAttribute("showWrongPasswordError",true);
 			// Redirect to login page
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			Map<String,String> errorResponse = new HashMap<>();
+			errorResponse.put("ERROR","Can Not LogIn");
+			return new ResponseEntity<>(errorResponse,HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
@@ -149,28 +160,31 @@ public class AccountLoginController {
 	/*
 	 * */
 	@PostMapping("/signup")
-	public ResponseEntity<?> createNewCustomer(@Valid @RequestBody SignUp signUp,
+	public ResponseEntity<Object> createNewCustomer(@Valid @RequestBody SignUp signUp,
 										BindingResult bindingResult,
 										Model model) {
-		System.out.println("Username: "+signUp.getUsername());
-		System.out.println("email: "+signUp.getEmail());
-		System.out.println("contactNumber: "+signUp.getContactNumber());
-		System.out.println("password1: "+signUp.getPassword1());
-		System.out.println("password2: "+signUp.getPassword2());
+//		System.out.println("Username: "+signUp.getUsername());
+//		System.out.println("email: "+signUp.getEmail());
+//		System.out.println("contactNumber: "+signUp.getContactNumber());
+//		System.out.println("password1: "+signUp.getPassword1());
+//		System.out.println("password2: "+signUp.getPassword2());
 
 		if (bindingResult.hasErrors()) {
 			System.out.println("Errors were found:");
 			System.out.println("Errors found: " + bindingResult.getErrorCount());
 			model.addAttribute("signup",signUp); // keep the form data
-			model.addAttribute("org.springframework.validation.BindingResult.signup", bindingResult); // Add the binding result
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			model.addAttribute("org.springframework.validation.BindingResult.signup", bindingResult); 
+			// Add the binding result
+			return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
 		}
 		
 		if(!signUp.getPassword1().equals(signUp.getPassword2())) {
 			bindingResult.rejectValue("password2", "error.password2","password2 do not match");
 			model.addAttribute("signup",signUp); // keep the form data
-			model.addAttribute("org.springframework.validation.BindingResult.signup", bindingResult); // Add the binding result
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			model.addAttribute("org.springframework.validation.BindingResult.signup", bindingResult);
+			Map<String,String> errorResponse = new HashMap<>();
+			errorResponse.put("ERROR","Password1 not equals to Password2");// Add the binding result
+			return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
 		}
 		customerService.addNew(signUp);
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -178,7 +192,7 @@ public class AccountLoginController {
 	
 	// logstat is just a page for seeing if you are logged in or out
 	@GetMapping("/customer")
-	public ResponseEntity<Customer> customerHome(HttpSession sessionObj) {
+	public ResponseEntity<Object> customerHome(HttpSession sessionObj) {
 		System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("isLoggedIn"));
 		// create isLoggedIn value if not already created
 		if (sessionObj.getAttribute("isLoggedIn")==null) {
@@ -187,9 +201,14 @@ public class AccountLoginController {
 		}
 		System.out.println(sessionObj.getAttribute("customer"));
 		Customer customer = (Customer)sessionObj.getAttribute("customer");
-		System.out.println("Current isLoggedIn status: "+(boolean) sessionObj.getAttribute("isLoggedIn"));
-		// uses 'logstat.html'
-		return new ResponseEntity<>(customer,HttpStatus.OK);
+		if(customer == null) {
+			Map<String,String> errorResponse = new HashMap<>();
+			errorResponse.put("ERROR","Can Not Get Customer Info");
+			return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+		}else {
+			System.out.println("Current isLoggedIn status: "+(boolean) sessionObj.getAttribute("isLoggedIn"));
+			return new ResponseEntity<>(customer,HttpStatus.OK);
+		}
 	}
 	
 	// for logging out

@@ -37,6 +37,9 @@ public class Product {
 	@Column(name="category")
 	private String category;
 	
+	@Column(name="is_selling")
+	private boolean isSelling;
+	
 	// use JsonIgnore because turn to Json will happen stackoverflow;
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
@@ -89,6 +92,14 @@ public class Product {
 		this.shoppingCartItems = shoppingCartItems;
 	}
 	
-	
+	public boolean getIsSelling() {
+		return isSelling;
+	}
+
+
+	public void setIsSelling(boolean isSelling) {
+		this.isSelling = isSelling;
+	}
+
 	
 }

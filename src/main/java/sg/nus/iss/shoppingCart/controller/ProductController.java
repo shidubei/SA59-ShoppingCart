@@ -30,8 +30,8 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> listProducts(Model model) {
-        List<Product> products = productService.listProducts();
+        List<Product> products = productService.listSellingProducts();
         model.addAttribute("products", products);
-        return new ResponseEntity<>(products,HttpStatus.OK); // 返回视图名称
+        return new ResponseEntity<>(products,HttpStatus.OK); 
     }
 }

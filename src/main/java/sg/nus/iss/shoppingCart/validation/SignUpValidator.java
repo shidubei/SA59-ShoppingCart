@@ -5,7 +5,6 @@ import org.springframework.validation.Validator;
 
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.dto.SignUp;
-import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.service.CustomerService;
 
 import java.util.List;
@@ -44,6 +43,7 @@ public class SignUpValidator implements Validator {
 		if (this.isValidPassword(password1) == false) {
 			errors.rejectValue("password1","error.passwordisgoodpassword",
 					"Password must have at least 8 characters and contain an uppercase letter, lowercase letter and digit");
+			System.out.println(errors);
 		}
 		// check if the confirm password is correct
 		String password2 = signUp.getPassword2();
@@ -80,10 +80,10 @@ public class SignUpValidator implements Validator {
 		for (i=0;i<password.length();i++) {
 			char_i = password.charAt(i);
 				
-			if (Character.isLetter(char_i) & Character.isUpperCase(char_i)) {
+			if (Character.isLetter(char_i) && Character.isUpperCase(char_i)) {
 				// is upper case
 				have_upper += 1;
-			} else if (Character.isLetter(char_i) & Character.isLowerCase(char_i)) {
+			} else if (Character.isLetter(char_i) && Character.isLowerCase(char_i)) {
 				// is lower case
 				have_lower += 1;
 			} else if (Character.isDigit(char_i)) {
@@ -95,16 +95,22 @@ public class SignUpValidator implements Validator {
 			}
 		}
 		
-		if (need_upper & have_upper == 0) {
+		System.out.println(have_upper);
+		System.out.println(have_lower);
+		System.out.println(have_digit);
+		System.out.println(have_special);
+		if (need_upper && have_upper == 0) {
 			return false;
-		} if (need_lower & have_lower == 0) {
+		} else if (need_lower && have_lower == 0) {
 			return false;
-		} if (need_digit & have_digit == 0) {
+		} else if (need_digit && have_digit == 0) {
 			return false;
-		} if (need_special & have_special == 0) {
+		} else if (need_special && have_special == 0) {
 			return false;
+		}else {
+			return true;
 		}
 		
-		return true;
+	
 	}
 }
