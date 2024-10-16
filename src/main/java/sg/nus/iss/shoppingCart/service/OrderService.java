@@ -1,5 +1,6 @@
 package sg.nus.iss.shoppingCart.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,10 @@ public class OrderService implements OrderInterfacemethods{
 	public Optional<Order> findOrderDetailsForCustomer(Customer customer, int orderId) {
 		return orderRepo.findByCustomerAndId(customer, orderId); 
 	}
-	
+	@Override
+	public BigDecimal findOrderProductUnits(int orderId,int productId) {
+		return orderDetailRepo.findUnitsByOrderAndProduct(orderId, productId);
+	}
 	@Override
 	public void CreateOrder(Order order,OrderDetails orderDetails) {
 		orderRepo.save(order);

@@ -1,5 +1,6 @@
 package sg.nus.iss.shoppingCart.interfacemethods;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,4 +43,13 @@ public interface OrderInterfacemethods {
 	 * Explain:
 	 */
 	List<Product> getProductsInOrder(int id);
+
+
+
+	/**
+	 * Creator:
+	 * Date:16 Oct 2024
+	 * Explain:
+	 */
+	BigDecimal findOrderProductUnits(int orderId, int productId);
 }

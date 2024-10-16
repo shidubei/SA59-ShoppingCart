@@ -1,6 +1,7 @@
 package sg.nus.iss.shoppingCart.controller;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.interfacemethods.OrderInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.Order;
+import sg.nus.iss.shoppingCart.model.OrderDetails;
 import sg.nus.iss.shoppingCart.model.Product;
 import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.repository.OrderRepository;
@@ -100,7 +102,19 @@ public class OrderController {
 	    	int orderItemCount = orderService.getOrderItemCount(order.getId());
 	    	orderData.put("totalItems", orderItemCount);
 	    	List<Product> productsInOrder = orderService.getProductsInOrder(order.getId());
-	    	orderData.put("items", productsInOrder);
+	    	List<Map<String,Object>> productInfos = new ArrayList<>();
+	    	for(Product product : productsInOrder) {
+	    		Map<String,Object> productInfo = new HashMap<>();
+	    		productInfo.put("name", product.getName());
+	    		// we only store each products unit price in orderdetials table
+	    		BigDecimal units = orderService.findOrderProductUnits(order.getId(), product.getId());
+	    		// use units divide product.price to get quantity.
+	    		BigDecimal quantity = units.divideToIntegralValue(product.getPrice());
+	    		productInfo.put("quantity",quantity);
+	    		productInfo.put("price", units);
+	    		productInfos.add(productInfo);
+	    	}
+	    	orderData.put("items", productInfos);
 	    	orderDatas.add(orderData);
 	    }
 	    if (orders.isEmpty()) {

@@ -3,6 +3,7 @@
  */
 package sg.nus.iss.shoppingCart.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,7 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails,Integ
 	
 	@Query("select od.product from OrderDetails od where od.order.id = :id")
 	public List<Product> findProductsByOrderId(@Param("id") int id);
+	
+	@Query("select od.units from OrderDetails od where od.order.id = :orderId and od.product.id =:productId")
+	public BigDecimal findUnitsByOrderAndProduct(@Param("orderId") int orderId,@Param("productId") int productId);
 }
