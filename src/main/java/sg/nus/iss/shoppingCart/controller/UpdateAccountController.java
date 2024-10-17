@@ -39,6 +39,11 @@ import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.service.CustomerService;
 import sg.nus.iss.shoppingCart.service.ShoppingCartService;
 
+/**
+ * Creator: Mark
+ * Explain: The controller to deal update account request
+ * RestAPI Regenerator: ZhongYi (change the controller to RestAPI and design ResponseEntity)
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class UpdateAccountController {
@@ -98,14 +103,6 @@ public class UpdateAccountController {
 	public ResponseEntity<Object> postUpdateDetails(@Valid @RequestBody UpdateDetails updateDetails,
 										BindingResult bindingResult,
 										Model model, HttpSession sessionObj) {
-		// Print update details form details for personal validation
-//		System.out.println("Id: "+updateDetails.getCustomerId());
-//		System.out.println("Email: "+updateDetails.getEmail());
-//		System.out.println("Username: "+updateDetails.getUsername());
-//		System.out.println("ContactNumber: "+updateDetails.getContactNumber());
-//		System.out.println("OldPassword: "+updateDetails.getOldPassword());
-//		System.out.println("Password1: "+updateDetails.getPassword1());
-//		System.out.println("Password2: "+updateDetails.getPassword2());
 		// If there are errors (ex. empty email, password not strong enough)
 		// redirect back to sign up page
 	    int customerId = (int) sessionObj.getAttribute("customerId");
@@ -124,15 +121,6 @@ public class UpdateAccountController {
 		Customer currentCustomer = customerService.updateCustomer(updateDetails);
 		sessionObj.setAttribute("customerName", updateDetails.getName());
 		// get the current account
-		//int customerId = (int) sessionObj.getAttribute("customerId");
-		//Optional<Customer> currentCustomerOptional = customerService.findById(customerId);
-		//Customer currentCustomer = currentCustomerOptional.get();
-		//currentCustomer.setEmail(updateDetails.getEmail());
-		//currentCustomer.setName(updateDetails.getUsername());
-		//currentCustomer.setContactNumber(updateDetails.getContactNumber());
-		//if (!updateDetails.getPassword1().equals("")) {
-		//	currentCustomer.setPassword(updateDetails.getPassword1());
-		//}
 		return new ResponseEntity<>(currentCustomer,HttpStatus.OK);
 		
 	}

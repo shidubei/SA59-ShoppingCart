@@ -10,6 +10,10 @@ import sg.nus.iss.shoppingCart.repository.AdminProductRepository;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Creator: WangZhongYun
+ * Explain: Valid when Admin want to change product info
+ */
 @Component
 public class AdminProductValidator implements Validator {
 

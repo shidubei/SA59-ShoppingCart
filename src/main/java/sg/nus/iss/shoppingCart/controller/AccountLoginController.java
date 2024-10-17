@@ -34,6 +34,13 @@ import sg.nus.iss.shoppingCart.interfacemethods.CustomerInterfacemethods;
 import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.model.dto.SignUp;
 import sg.nus.iss.shoppingCart.service.CustomerService;
+
+/**
+ * Creator: Mark
+ * Explain: The AccountLoginContoller will help to deal with login,logout and signUp request
+ * RestAPI Regenerator: ZhongYi (change the controller to RestAPI and design ResponseEntity)
+ */
+
 //change Controller to RestController
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
@@ -62,17 +69,12 @@ public class AccountLoginController {
 		binder.addValidators(signUpValidator);
 	}
 	
-	// Go to login screen
 	@GetMapping("/login")
 	public ResponseEntity<Customer> loginPage(Model model,HttpSession sessionObj) {
 		// If the 'isLoggedIn' session object is not made assume not logged in
 		if (sessionObj.getAttribute("isLoggedIn")==null) {
 			sessionObj.setAttribute("isLoggedIn",false);
 		}
-		// if you are already logged in redirect to the main page
-		//if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
-		//	return "redirect:/logstat";
-		//}
 		// These model attributes are to save what is typed on the login screen
 		model.addAttribute("username","");
 		model.addAttribute("password","");
@@ -80,18 +82,16 @@ public class AccountLoginController {
 		// the user keyed in is wrong. It will cause the 'invalid password' message
 		// to appear.
 		model.addAttribute("showWrongPasswordError",false);
-		// uses 'login.html'
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	// Change it to RestAPI Post Request
-	// postmapping on login
+
+	// Handle ReactJS Front-end send post request to login
 	@PostMapping("/login")
 	public ResponseEntity<Object> loginToAccount(Model model,
 									HttpSession sessionObj,
 									@RequestBody Customer customer) {
-//		System.out.println("Username: "+loginUsername);
-//		System.out.println("Password: "+loginPassword);
+
 		
 		// validate that username and password is correct
 		// (there exists a user with the same name and password combo)
@@ -107,13 +107,9 @@ public class AccountLoginController {
 			model.addAttribute("password","");
 			// no longer a wrong password
 			model.addAttribute("showWrongPasswordError",false);
-			// isLoggedIn is a boolean to indicate if the current HttpSession is logged in
-			// Refer to this value for pages that require logins to access
 			
-			// HttpSession to save the customerId and name to reference
-			// Refer to this value for pages that require logins to access
-			// change:
-			// 1.add customer attribute
+			// if getCustomer correct and the name of the getCustomer is 'admin'
+			// then response to ReactJS with isAdmin and name
 			if(gotCustomer.getName().equals("admin")) {
 				Map<String,Object> response = new HashMap<>();
 				response.put("isAdmin",true);
@@ -127,55 +123,43 @@ public class AccountLoginController {
 			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("isLoggedIn"));
 			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("customerId"));
 			System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("customer"));
-			// Redirect to logstat (the 'main' page)
+			
+			// if just a customer,response to ReactJS with customer info
 			return new ResponseEntity<>(gotCustomer,HttpStatus.OK);
 		} else {
 			// login invalid; return the user to the login page and ask them to re-type
 			model.addAttribute("username",customer.getName());
 			model.addAttribute("password","");
-			model.addAttribute("showWrongPasswordError",true);
-			// Redirect to login page
+			
+			// if have error
 			Map<String,String> errorResponse = new HashMap<>();
-			errorResponse.put("ERROR","Invalid username or password,can not login");
+			errorResponse.put("ERROR","Ianvalid usernme or password,can not login");
 			return new ResponseEntity<>(errorResponse,HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
-	// signup is the page for creating new accounts
 	@GetMapping("/signup")
 	public ResponseEntity<?> signUpPage(Model model, HttpSession sessionObj) {
 		// If the 'isLoggedIn' session object is not made assume not logged in
 		if (sessionObj.getAttribute("isLoggedIn")==null) {
 			sessionObj.setAttribute("isLoggedIn",false);
 		}
-		// if you are already logged in redirect to the front
-		//if ((boolean) sessionObj.getAttribute("isLoggedIn") == true) {
-		//	return "redirect:/logstat";
-		//}
 		// create a new model for SignUp data
 		model.addAttribute("signup",new SignUp());
-		// uses 'create-account.html'
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	/*
-	 * */
+	// Handle ReactJS Front-end request to signup
 	@PostMapping("/signup")
 	public ResponseEntity<Object> createNewCustomer(@Valid @RequestBody SignUp signUp,
 										BindingResult bindingResult,
 										Model model) {
-//		System.out.println("Username: "+signUp.getUsername());
-//		System.out.println("email: "+signUp.getEmail());
-//		System.out.println("contactNumber: "+signUp.getContactNumber());
-//		System.out.println("password1: "+signUp.getPassword1());
-//		System.out.println("password2: "+signUp.getPassword2());
-
 		if (bindingResult.hasErrors()) {
 			System.out.println("Errors were found:");
 			System.out.println("Errors found: " + bindingResult.getErrorCount());
 			model.addAttribute("signup",signUp); // keep the form data
 			model.addAttribute("org.springframework.validation.BindingResult.signup", bindingResult); 
-			// Add the binding result
+			// response validator's error info
 			return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
 		}
 		
@@ -191,7 +175,7 @@ public class AccountLoginController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
-	// logstat is just a page for seeing if you are logged in or out
+	// Handle ReactJS front-end when want to get customer info
 	@GetMapping("/customer")
 	public ResponseEntity<Object> customerHome(HttpSession sessionObj) {
 		System.out.println("Current isLoggedIn status: "+sessionObj.getAttribute("isLoggedIn"));
@@ -212,7 +196,7 @@ public class AccountLoginController {
 		}
 	}
 	
-	// for logging out
+	// Handle ReactJS front-end when want to logout
 	@GetMapping("/logout")
 	public ResponseEntity<?> logoutOfAccount(HttpSession sessionObj) {
 		System.out.println("inLogout");

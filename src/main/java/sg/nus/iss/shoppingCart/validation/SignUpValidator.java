@@ -12,7 +12,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Creator: Mark
+ * Explain: Valid when set SignUp data
+ */
 // validator used for sign up data
 @Component
 public class SignUpValidator implements Validator {

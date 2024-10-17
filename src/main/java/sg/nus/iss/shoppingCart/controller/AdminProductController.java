@@ -23,6 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Creator: WangZhongYun
+ * Explain: The Controller for Admin user to CRUD product
+ * RestAPI Regenerator: ZhongYi (change the controller to RestAPI and design ResponseEntity)
+ */
 @RestController
 public class AdminProductController {
 
@@ -84,33 +89,7 @@ public class AdminProductController {
         return new ResponseEntity<>(null,HttpStatus.CREATED);  
     }
 
-    // This method is used to delete a product
-    // If there are no errors, it deletes the product and redirects to the product listing page
-//    @DeleteMapping("/admin/products/delete")
-//    public ResponseEntity<Object> deleteProduct(@RequestParam("id") int delete_id) {
-//        try {
-//            // Attempt to delete the product
-//            adminProductService.deleteProduct(delete_id);
-//        } catch (Exception e) {
-//        	Map<String,String> errorResponse = new HashMap<>();
-//        	errorResponse.put("ERROR", e.toString());
-//            // Handle any exceptions that occur during the deletion proces
-//            return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);  // Stay on the same page and show an error
-//        }
-//
-//        // If deletion is successful, redirect back to the product listing page
-//        return new ResponseEntity<>(null,HttpStatus.OK);
-//    }
 
-
-    // This method is used to update a product
-    // If there are no errors, it updates the product and redirects to the product listing page
-//    @GetMapping("/admin/products/update")
-//    public String updateProductForm(HttpSession sessionObj,@RequestParam("productId") int id, Model model) {
-//    	System.out.println(id);
-//        sessionObj.setAttribute("updateProductId", id);
-//        return "adminProductForm";
-//    }
     @PutMapping("/admin/products/update")
     public ResponseEntity<Object> updateProduct(@RequestBody Map<String,Object> requestBody) {
     	int update_id  = (int)requestBody.get("id");
@@ -126,12 +105,6 @@ public class AdminProductController {
     	String name = (String)requestBody.get("name");
     	String category = (String)requestBody.get("category");
     	boolean isSelling = (boolean)requestBody.get("isSelling");
-//    	boolean isSelling = true;
-//    	if(isSellingStr.equals("Selling")) {
-//    		isSelling=true;
-//    	}else if(isSellingStr.equals("NotSelling")) {
-//    		isSelling=false;
-//    	}
         // If no errors, save the product
         adminProductService.updateProduct(update_id,name,price,category,isSelling);
         return new ResponseEntity<>(null,HttpStatus.OK);  // Redirect to the product listing page

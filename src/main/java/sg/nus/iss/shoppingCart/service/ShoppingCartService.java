@@ -20,6 +20,10 @@ import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.repository.OrderRepository;
 import sg.nus.iss.shoppingCart.repository.ShoppingCartItemRepository;
 
+/**
+ * Creator: Kelly&LiuRuiHan&
+ * Explain: This is the Server Layer Implement for Address Service
+ */
 @Service
 @Transactional
 public class ShoppingCartService implements ShoppingCartInterface{
@@ -55,11 +59,6 @@ public class ShoppingCartService implements ShoppingCartInterface{
 		else {
 			return null;
 		}
-	}
-	@Override
-	public void CheckOut(int id, ShoppingCart sc) {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public List<ShoppingCartItem> findAllShoppingCartItem() {
@@ -107,21 +106,4 @@ public class ShoppingCartService implements ShoppingCartInterface{
 	public int countItem(int id) {
 		return shoppingCartItemRepo.countItem(id);
 	}
-	/*
-	@Override
-	@Transactional
-	public void CheckOut(int id, ShoppingCart sc) {
-		List<ShoppingCartItem> items = sc.getShoppingCartItems();
-		Order o = new Order();
-		Customer c = customerRepo.findById(id).get();
-		o.setCustomer(c);
-		for(ShoppingCartItem i:items) {
-			OrderDetails od = new OrderDetails();
-			od.setProduct(i.getProduct());
-			od.setQuantity(i.getQuantity());
-			o.getOrderDetails().add(od);
-		}
-	
-	}
-	*/
 }

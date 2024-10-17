@@ -24,9 +24,9 @@ import sg.nus.iss.shoppingCart.model.Customer;
 import sg.nus.iss.shoppingCart.service.AddressService;
 
 /**
- * Creator: Zhong Yi
- * Date:7 Oct 2024
+ * Creator: ZhongYi
  * Explain: this is a controller to handle address request;
+ * RestAPI Regenerator: ZhongYi (change the controller to RestAPI and design ResponseEntity)
  */
 @RestController
 @RequestMapping("/customer")
@@ -38,11 +38,6 @@ public class AddressController {
 	private void setAddressService(AddressService addressService) {
 		this.addressService = addressService;
 	}
-	/**
-	 * Creator: Zhong Yi
-	 * Date:7 Oct 2024
-	 * Explain: Handle url /address and list Address
-	 */
 	@GetMapping("/address")
 	public ResponseEntity<Object> listAddress(HttpSession sessionObj,Model model) {
 		Integer customerId = (Integer)sessionObj.getAttribute("customerId");
@@ -59,16 +54,6 @@ public class AddressController {
 		}
 	}
 	
-//	// when 
-//	@GetMapping("/address/update")
-//	public ResponseEntity<?> updateAddressPage(HttpSession session, @RequestParam int id) {
-//		if(addressService.findById(id)!=null) {
-//			session.setAttribute("updateAddressId", id);
-//			return new ResponseEntity<>(HttpStatus.OK);
-//		}else {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//	}
 	// This is to update Address
 	@PutMapping("/address/update")
 	public ResponseEntity<Object> updateAddress(HttpSession session,
@@ -85,20 +70,6 @@ public class AddressController {
 		}
 	}
 	
-	/*
-	 * Creator: Zhong Yi
-	 * Date:7 Oct 2024
-	 * Explain: Handle url /address/add to display the form to post address
-	 */
-//	@GetMapping("/address/add")
-//	public String addAddressPage() {
-//		return "add-address-form";
-//	}
-	/*
-	 * Creator: ZhongYi
-	 * Date:7 Oct 2024
-	 * Explain: Handle url /address/add to post the address
-	 */
 	@PostMapping("/address/add")
 	public ResponseEntity<Object> addAddress(HttpSession sessionObj, @RequestBody Map<String,String> requestBody) {
 		Customer customer = (Customer)sessionObj.getAttribute("customer");

@@ -13,8 +13,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
-// validator used for sign up data
+/**
+ * Creator: Mark
+ * Explain: Valid when set UpdeteDetail data
+ */
 @Component
 public class UpdateDetailsValidator implements Validator {
 

@@ -11,4 +11,7 @@ public interface ProductInterfacemethods {
 	List<Product> listSellingProducts();
 
 	List<Product> listProductByCategory(String category);
+	
+	List<Product> listProdcutByNameAndCategory(String name,String category);
+	
 }

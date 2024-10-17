@@ -11,11 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-/**
- * Creator: Zhong Yi
- * Date:7 Oct 2024
- * Explain: This is a table to store the customer's pre-address
- */
 
 @Entity
 @Table(name="address")

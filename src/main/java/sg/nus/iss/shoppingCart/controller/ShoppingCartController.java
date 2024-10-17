@@ -38,6 +38,11 @@ import sg.nus.iss.shoppingCart.service.OrderService;
 import sg.nus.iss.shoppingCart.service.ProductService;
 import sg.nus.iss.shoppingCart.service.ShoppingCartService;
 
+/**
+ * Creator: LiuRuiHan&Kelly
+ * Explain: The controller deal shoppingCart request
+ * RestAPI Regenerator: ZhongYi (change the controller to RestAPI and design ResponseEntity)
+ */
 @RestController
 public class ShoppingCartController {
 	@Autowired

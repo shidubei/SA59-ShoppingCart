@@ -42,8 +42,7 @@ public class Customer {
 	
 
 	public Customer() {}
-	// change:
-	// 1.Customer Argument don't need Id,because Id is auto_increment
+
 	public Customer(String name, String password, String email, String contactNumber) {
 		this.name = name;
 		this.password = password;

@@ -12,7 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
+/**
+ * Creator: Mark
+ * Explain: logout interceptor
+ */
 @Component
 public class RedirectIfLoggedOutInterceptor implements HandlerInterceptor {
 	

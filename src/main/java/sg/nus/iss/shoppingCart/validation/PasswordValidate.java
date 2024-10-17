@@ -1,5 +1,9 @@
 package sg.nus.iss.shoppingCart.validation;
 
+/**
+ * Creator: Mark
+ * Explain: Valid when set Password
+ */
 public class PasswordValidate {
 
 

@@ -33,18 +33,19 @@ import sg.nus.iss.shoppingCart.repository.OrderRepository;
 import sg.nus.iss.shoppingCart.service.CustomerService;
 import sg.nus.iss.shoppingCart.service.OrderService;
 
+/**
+ * Creator: Azril
+ * Explain: The controller deal order request
+ * RestAPI Regenerator: ZhongYi (change the controller to RestAPI and design ResponseEntity)
+ */
 @RestController
 @RequestMapping("/customer/order")
 public class OrderController {
 
-//	@Autowired
-//	private OrderRepository orderRepository;
 
 	@Autowired
 	private OrderInterfacemethods orderService; 
 	
-//	@Autowired
-//	private CustomerRepository customerRepo; 
 	
 	@Autowired 
 	private CustomerInterfacemethods customerService; 
@@ -62,12 +63,6 @@ public class OrderController {
 	//Simple greeting message
 	@GetMapping("/greeting" )
 	public String greetingOrder() {
-		
-//	    // Retrieve customerId from session
-//	     Integer customerId = (Integer) session.getAttribute("customerId");
-//		System.out.println("This line is inside console for /greeting");
-//		model.addAttribute("message", "Welcome to order page!"); 
-//	    model.addAttribute("customerId", customerId);  // Use the passed customerId
 		return "Welcome to order page";
 	}
 	
@@ -77,8 +72,6 @@ public class OrderController {
 		
 	    int customerId = (int) session.getAttribute("customerId");
 	    // Fetch the customer and their orders using the customerId
-	    // change:
-	    // 1.use mark's code, return a Optional<Customer> Type
 	    Optional<Customer> customer = customerService.findById(customerId);
 	    
 	    if (!customer.isPresent()) {
@@ -140,20 +133,6 @@ public class OrderController {
 	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Redirect if order is not found
 	    }
 	}
-//	
-//	//Create ORDER from SHOPPINGCART ITEM that has been checked-out
-//	@GetMapping("/create-order") 
-//	public String createOrder(Model model) {
-//		System.out.println("This line is from /create-order");
-//		model.addAttribute("order", new Order());
-//		return "create-order";
-//	}
-//	@PostMapping("/save-order")
-//	public String saveOrder(@ModelAttribute Order order) {
-//		System.out.println("This line is from /save-order");
-//		System.out.println("Order created: " + order.getId());
-//		return "redirect:/create-order";
-//	}
 }
 
 /* Creator: Azril

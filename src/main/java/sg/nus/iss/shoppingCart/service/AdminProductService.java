@@ -13,6 +13,10 @@ import sg.nus.iss.shoppingCart.repository.AdminProductRepository;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Creator: WangZhongYun
+ * Explain: This is the Server Layer Implement for AdminProduct Service
+ */
 @Service
 public class AdminProductService implements AdminProductInterfaceMethods {
 

@@ -30,4 +30,8 @@ public class ProductService implements ProductInterfacemethods{
 	public List<Product> listProductByCategory(String category){
 		return productRepo.findProductsByCategory(category);
 	}
+	@Override
+	public List<Product> listProdcutByNameAndCategory(String name, String category) {
+		return productRepo.findProductByCategotyAndName(category,name);
+	}
 }

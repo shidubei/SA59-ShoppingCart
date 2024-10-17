@@ -16,6 +16,10 @@ import sg.nus.iss.shoppingCart.model.dto.SignUp;
 import sg.nus.iss.shoppingCart.repository.CustomerRepository;
 import sg.nus.iss.shoppingCart.repository.ShoppingCartRepository;
 
+/**
+ * Creator: Mark
+ * Explain: This is the Server Layer Implement for Customer Service
+ */
 @Service
 @Transactional
 public class CustomerService implements CustomerInterfacemethods {
@@ -56,9 +60,6 @@ public class CustomerService implements CustomerInterfacemethods {
 		// update contact number
 		currentCustomer.setContactNumber(updateDetails.getContactNumber());
 		// update password if it is changed
-//		if (!updateDetails.getPassword1().equals("")) {
-//			currentCustomer.setPassword(updateDetails.getPassword1());
-//		}
 		customerRepo.save(currentCustomer);
 		return currentCustomer;
 	}

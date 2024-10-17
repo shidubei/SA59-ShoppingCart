@@ -27,8 +27,6 @@ public class Order {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	// change:
-	// 1. order_date in datebase's type is Date, so use Local Date to map the type
 	@Column(name="order_date")
 	private LocalDate orderDate;
 	
@@ -43,9 +41,6 @@ public class Order {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	// change:
-	// 2. order_details table have other attribute, so we need a OrderDetails Entity to Map it
-	//    so do not use JoinTable to Map
 	@OneToMany(fetch=FetchType.EAGER,mappedBy="order",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<OrderDetails> orderDetails;
 	

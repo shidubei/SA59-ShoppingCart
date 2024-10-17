@@ -5,6 +5,9 @@ import java.util.List;
 import sg.nus.iss.shoppingCart.model.ShoppingCart;
 import sg.nus.iss.shoppingCart.model.ShoppingCartItem;
 
+/**
+ * Creator: Kelly&LiuRuiHan&ZhongYi
+ */
 public interface ShoppingCartInterface {
 	/*
 	 * Creator: Kelly
@@ -13,7 +16,6 @@ public interface ShoppingCartInterface {
 	 */
 	public ShoppingCart getShoppingCart(int id);
 	
-	public void CheckOut(int id, ShoppingCart sc);
 	
 	List<ShoppingCartItem> findAllShoppingCartItem();
 
@@ -23,31 +25,14 @@ public interface ShoppingCartInterface {
 
 	public void deleteProduct(int product_id,int id);
 
-	/**
-	 * Creator:
-	 * Date:10 Oct 2024
-	 * Explain:
-	 */
+
 	ShoppingCartItem checkIfExistInShoppingCart(int product_id, ShoppingCart sc);
 
-	/**
-	 * Creator:
-	 * Date:10 Oct 2024
-	 * Explain:
-	 */
+
 	void saveShoppingCartItem(ShoppingCartItem sci);
 
-	/**
-	 * Creator:
-	 * Date:10 Oct 2024
-	 * Explain:
-	 */
+
 	void updateShoppingCartItemQty(int id, int add_qty);
 
-	/**
-	 * Creator:
-	 * Date:14 Oct 2024
-	 * Explain:
-	 */
 	int countItem(int id);
 }

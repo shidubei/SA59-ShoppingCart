@@ -16,9 +16,10 @@ import sg.nus.iss.shoppingCart.model.Product;
 import sg.nus.iss.shoppingCart.repository.OrderDetailsRepository;
 import sg.nus.iss.shoppingCart.repository.OrderRepository;
 
-// change: 
-// 1.OrderService Implements OrderInterfacemethods
-// 2.@Override the getAllOrders methods
+/**
+ * Creator: Azril
+ * Explain: This is the Server Layer Implement for Order Service
+ */
 
 @Service
 public class OrderService implements OrderInterfacemethods{
