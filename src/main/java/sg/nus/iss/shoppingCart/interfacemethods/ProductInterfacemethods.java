@@ -7,10 +7,8 @@ import sg.nus.iss.shoppingCart.model.Product;
 public interface ProductInterfacemethods {
 	public List<Product> listProducts();
 	public Product getProduct(int id);
-	/**
-	 * Creator:
-	 * Date:16 Oct 2024
-	 * Explain:
-	 */
+
 	List<Product> listSellingProducts();
+
+	List<Product> listProductByCategory(String category);
 }

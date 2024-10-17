@@ -44,7 +44,7 @@ public class CustomerService implements CustomerInterfacemethods {
 	
 	@Override
 	@Transactional
-	public void updateCustomer(UpdateDetails updateDetails) {
+	public Customer updateCustomer(UpdateDetails updateDetails) {
 		// get the current account
 		int customerId = updateDetails.getCustomerId();
 		Optional<Customer> currentCustomerOptional = this.findById(customerId);
@@ -52,7 +52,7 @@ public class CustomerService implements CustomerInterfacemethods {
 		// update email
 		currentCustomer.setEmail(updateDetails.getEmail());
 		// update name
-		currentCustomer.setName(updateDetails.getUsername());
+		currentCustomer.setName(updateDetails.getName());
 		// update contact number
 		currentCustomer.setContactNumber(updateDetails.getContactNumber());
 		// update password if it is changed
@@ -60,6 +60,7 @@ public class CustomerService implements CustomerInterfacemethods {
 //			currentCustomer.setPassword(updateDetails.getPassword1());
 //		}
 		customerRepo.save(currentCustomer);
+		return currentCustomer;
 	}
 	
 	@Override

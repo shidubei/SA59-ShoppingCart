@@ -16,7 +16,7 @@ public interface CustomerInterfacemethods {
 	
 	public void addNew(SignUp signUp);
 	
-	public void updateCustomer(UpdateDetails updateDetails);
+	public Customer updateCustomer(UpdateDetails updateDetails);
 	
 	public List<Customer> findByName(String name);
 	

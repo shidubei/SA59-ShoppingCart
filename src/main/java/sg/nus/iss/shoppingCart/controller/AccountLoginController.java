@@ -114,9 +114,10 @@ public class AccountLoginController {
 			// Refer to this value for pages that require logins to access
 			// change:
 			// 1.add customer attribute
-			if(customer.getName().equals("admin")) {
-				Map<String,Boolean> response = new HashMap<>();
+			if(gotCustomer.getName().equals("admin")) {
+				Map<String,Object> response = new HashMap<>();
 				response.put("isAdmin",true);
+				response.put("name","admin");
 				return new ResponseEntity<>(response,HttpStatus.OK);
 			}
 			sessionObj.setAttribute("isLoggedIn",true);
@@ -135,7 +136,7 @@ public class AccountLoginController {
 			model.addAttribute("showWrongPasswordError",true);
 			// Redirect to login page
 			Map<String,String> errorResponse = new HashMap<>();
-			errorResponse.put("ERROR","Can Not LogIn");
+			errorResponse.put("ERROR","Invalid username or password,can not login");
 			return new ResponseEntity<>(errorResponse,HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -214,6 +215,7 @@ public class AccountLoginController {
 	// for logging out
 	@GetMapping("/logout")
 	public ResponseEntity<?> logoutOfAccount(HttpSession sessionObj) {
+		System.out.println("inLogout");
 		// clear the current http session
 		sessionObj.invalidate();
 		// redirect to front page

@@ -1,5 +1,6 @@
 package sg.nus.iss.shoppingCart.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -86,7 +87,7 @@ public class UpdateAccountController {
 		// create the update details data holder
 		UpdateDetails updateDetails = new UpdateDetails();
 		updateDetails.setCustomerId(customerId);
-		updateDetails.setUsername(currentCustomer.getName());
+		updateDetails.setName(currentCustomer.getName());
 		updateDetails.setEmail(currentCustomer.getEmail());
 		updateDetails.setContactNumber(currentCustomer.getContactNumber());
 		model.addAttribute("updatedetails",updateDetails);
@@ -94,7 +95,7 @@ public class UpdateAccountController {
 	}
 	
 	@PutMapping("/updatedetails")
-	public ResponseEntity<?> postUpdateDetails(@Valid @RequestBody UpdateDetails updateDetails,
+	public ResponseEntity<Object> postUpdateDetails(@Valid @RequestBody UpdateDetails updateDetails,
 										BindingResult bindingResult,
 										Model model, HttpSession sessionObj) {
 		// Print update details form details for personal validation
@@ -115,11 +116,13 @@ public class UpdateAccountController {
 			System.out.println("Errors found: " + bindingResult.getErrorCount());
 			model.addAttribute("updatedetails",updateDetails); // keep the form data
 			// Question: In workshops re-adding bindingResult was unnecessary. However here it is necessary.
-			model.addAttribute("org.springframework.validation.BindingResult.updatedetails", bindingResult); // Add the binding result
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			model.addAttribute("org.springframework.validation.BindingResult.updatedetails", bindingResult);
+			
+			// Add the binding result
+			return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
 		}
-		customerService.updateCustomer(updateDetails);
-		sessionObj.setAttribute("customerName", updateDetails.getUsername());
+		Customer currentCustomer = customerService.updateCustomer(updateDetails);
+		sessionObj.setAttribute("customerName", updateDetails.getName());
 		// get the current account
 		//int customerId = (int) sessionObj.getAttribute("customerId");
 		//Optional<Customer> currentCustomerOptional = customerService.findById(customerId);
@@ -130,7 +133,7 @@ public class UpdateAccountController {
 		//if (!updateDetails.getPassword1().equals("")) {
 		//	currentCustomer.setPassword(updateDetails.getPassword1());
 		//}
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(currentCustomer,HttpStatus.OK);
 		
 	}
 }

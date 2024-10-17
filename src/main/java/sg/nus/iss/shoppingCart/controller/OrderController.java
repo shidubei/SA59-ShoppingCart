@@ -85,13 +85,6 @@ public class OrderController {
 	        model.addAttribute("message", "You need to log in to view your orders!");
 	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
 	    }
-	    // Question:
-	    // 1.why you need two If statement;
-//	    if (!customer.isPresent()) {
-//	        model.addAttribute("message", "Customer not found.");
-//	        return "redirect:/login";
-//	    }
-//	    
 	    List<Order> orders = orderService.findOrdersByCustomer((Customer)customer.get());
 	    orders.forEach(order->System.out.println(order));
 	    List<Map<String,Object>> orderDatas = new ArrayList<>();

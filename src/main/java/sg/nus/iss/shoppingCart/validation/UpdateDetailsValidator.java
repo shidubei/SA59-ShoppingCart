@@ -40,12 +40,12 @@ public class UpdateDetailsValidator implements Validator {
 		Customer currentCustomer = currentCustomerOptional.get();
 		
 		// check the username
-		String username = updateDetails.getUsername();
+		String username = updateDetails.getName();
 		List<Customer> sameUserName = customerService.findByName(username);
 		if (currentCustomer.getName().equals(username)) {
 			// if username is not going to change this part is clear
 		} else if (sameUserName.size() >= 1) {
-			errors.rejectValue("username","error.usedusername",
+			errors.rejectValue("name","error.usedusername",
 					"This username is already in use. Please use a different username.");
 		}
 	

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import sg.nus.iss.shoppingCart.interfacemethods.ProductInterfacemethods;
@@ -33,5 +34,11 @@ public class ProductController {
         List<Product> products = productService.listSellingProducts();
         model.addAttribute("products", products);
         return new ResponseEntity<>(products,HttpStatus.OK); 
+    }
+    
+    @GetMapping("/products/{category}")
+    public ResponseEntity<List<Product>> listProductsCategory(@PathVariable String category){
+    	List<Product> products = productService.listProductByCategory(category);
+    	return new ResponseEntity<>(products,HttpStatus.OK);
     }
 }

@@ -16,7 +16,7 @@ public class UpdateDetails {
 	
 	@NotBlank(message="Name is required")
 	@Size(min=2,max=30,message="Name must be between 2-30 characters")
-	public String username;
+	public String name;
 	
 	@Pattern(regexp="(|[0-9]{8,})",
 			message="Either leave Contact Number blank or input a proper contact number (at least 8 digits).")
@@ -44,12 +44,12 @@ public class UpdateDetails {
 		this.email = email;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getContactNumber() {
